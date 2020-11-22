@@ -8,6 +8,8 @@ import 'package:numberpicker/numberpicker.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import 'package:flutter_picker/flutter_picker.dart';
+import 'package:percent_indicator/percent_indicator.dart';
+import 'Category_list.dart';
 
 void main() {
   runApp(MyApp());
@@ -92,347 +94,385 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   var swatch = Stopwatch();
   String startbuttontext = "Start";
 
-  void starttimer() {
-    Timer(dur, keeprunning);
-  }
-
-  void keeprunning() {
-    if (swatch.isRunning) {
-      starttimer();
-    }
-    setState(() {
-      stoptimetodisplay = swatch.elapsed.inHours.toString().padLeft(2, "0") +
-          ":" +
-          (swatch.elapsed.inMinutes % 60).toString().padLeft(2, "0") +
-          ":" +
-          (swatch.elapsed.inSeconds % 60).toString().padLeft(2, "0");
-    });
-  }
-
-  void startstoptwatch() {
-    setState(() {
-      stopispressed = false;
-      startispressed = false;
-      resetispressed = true;
-    });
-    swatch.start();
-    starttimer();
-  }
-
-  void stopstopwatch() {
-    setState(() {
-      stopispressed = true;
-      resetispressed = false;
-      startispressed = true;
-      startbuttontext = "Continue";
-    });
-    swatch.stop();
-  }
-
-  void resetstopwatch() {
-    setState(() {
-      startispressed = true;
-      resetispressed = true;
-      startbuttontext = "Start";
-    });
-    swatch.reset();
-    stoptimetodisplay = "00:00:00";
-  }
-
-  void safe() {
-    timeForSafe = ((hour * 60 * 60) + (min * 60) + sec);
-    debugPrint(timeForSafe.toString());
-    setState(() {
-      if (timeForSafe < 60) {
-        timetodisplay = timeForSafe.toString();
-      } else if (timeForSafe < 3600) {
-        int m = timeForSafe ~/ 60;
-        int s = timeForSafe - (60 * m);
-        timetodisplay = m.toString() + ":" + s.toString();
-      } else {
-        int h = timeForSafe ~/ 3600;
-        int t = timeForSafe - (3600 * h);
-        int m = t ~/ 60;
-        int s = t - (60 * m);
-        timetodisplay = h.toString() + ":" + m.toString() + ":" + s.toString();
-      }
-    });
-  }
-
-  DateTime _selectedDay = DateTime.now();
-  List<dynamic> _selectedEvents = [];
-  List<dynamic> _selectedHolidays = [];
-
-  void _onDaySelected(DateTime day, List events, List events2) {
-    setState(() {
-      _selectedDay = day;
-      _selectedEvents = events;
-      _selectedHolidays = events2;
-    });
-  }
-
-  void timeselected() {
-    debugPrint(timetodisplay.toString());
-    setState(() {
-      timetodisplay = hour.toString() + ":" + min.toString();
-    });
-  }
-
-  void showPickerNumber(BuildContext context) {
-    Picker(
-        adapter: NumberPickerAdapter(data: [
-          NumberPickerColumn(
-            initValue: hour,
-            begin: 0,
-            end: 24,
-          ),
-          NumberPickerColumn(
-            initValue: min,
-            begin: 0,
-            end: 60,
-          ),
-        ]),
-        delimiter: [
-          PickerDelimiter(
-            child: Container(
-              width: 45.0,
-              alignment: Alignment.center,
-              child: Text("min"),
-            ),
-          ),
-          PickerDelimiter(
-            child: Container(
-              width: 45.0,
-              alignment: Alignment.center,
-              child: Text("hours"),
-            ),
-          ),
-        ],
-        hideHeader: true,
-        title: Text("Please set hours and minutes"),
-        selectedTextStyle: TextStyle(color: Colors.blue),
-        onConfirm: (Picker picker, List value) {
-          print(value.toString());
-          print(picker.getSelectedValues());
-          hour = value[0];
-          min = value[1];
-          timeselected();
-        }).showDialog(context);
-  }
-
   @override
   void initState() {
     tb = TabController(
-      length: 2,
+      length: 3,
       vsync: this,
     );
     super.initState();
     _controller = CalendarController();
   }
 
-  Widget manual() {
-    return Container(
-        child: Column(children: <Widget>[
-          Container(
-            height: 150.0,
-            alignment: Alignment.bottomCenter,
-            child: TableCalendar(
-              daysOfWeekStyle: DaysOfWeekStyle(
-                  weekdayStyle: TextStyle(color: Colors.white),
-                  weekendStyle: TextStyle(color: Colors.blueAccent)),
-              startingDayOfWeek: StartingDayOfWeek.monday,
-              headerStyle: HeaderStyle(
-                leftChevronIcon: Icon(Icons.chevron_left, color: Colors.white),
-                rightChevronIcon: Icon(Icons.chevron_right, color: Colors.white),
-                centerHeaderTitle: true,
-                titleTextStyle: TextStyle(
-                  color: Colors.white,
-                ),
-                formatButtonVisible: false,
-              ),
-              initialCalendarFormat: CalendarFormat.week,
-              calendarStyle: CalendarStyle(
-                todayColor: Colors.grey,
-                selectedColor: Colors.blueAccent,
-                weekdayStyle: TextStyle(
-                  color: Colors.white,
-                ),
-                unavailableStyle: TextStyle(color: Colors.white),
-                weekendStyle: TextStyle(color: Colors.white54),
-                todayStyle: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              calendarController: _controller,
-              onDaySelected: _onDaySelected,
-            ),
-          ),
-          Container(
-            height: 300,
+  double habitprocentage = 0.789;
+  double thisweekprocentage = 0.489;
+  double thismonthprocentage = 0.888;
+  double thisyearprocentage = 0.184;
+
+  Widget statistics_Habit() {
+    return SingleChildScrollView(
+      child: Column(children: [
+        Container(
+            height: 40.0,
             alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Text(
-                  "Coding",
-                  style: TextStyle(fontSize: 40.0, color: Colors.white),
-                ),
-                Text((hour.toString() + " hour(s)" + min.toString() + " min(s)"),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 35.0,
-                    )),
-                Text(
-                    (_selectedDay.day.toString() +
-                        "." +
-                        _selectedDay.month.toString() +
-                        "." +
-                        _selectedDay.year.toString()),
-                    style: TextStyle(fontSize: 25.0, color: Colors.white)),
-              ],
+            child: Text("Total Score",
+                style: TextStyle(
+                  fontSize: 25.0,
+                  color: Colors.white,
+                ))),
+        Container(
+            height: 300,
+            width: 300,
+            child: CircularPercentIndicator(
+              progressColor: Colors.blueAccent,
+              percent: habitprocentage,
+              animation: true,
+              radius: 250.0,
+              lineWidth: 15.0,
+              circularStrokeCap: CircularStrokeCap.round,
+              backgroundColor: Colors.grey,
+              center: Text((habitprocentage * 100).toString() + "%",
+                  style: TextStyle(fontSize: 30.0, color: Colors.white)),
+            )),
+        Container(
+            height: 50.0,
+            width: 400,
+            alignment: Alignment.center,
+            child: Text("Statistics",
+                style: TextStyle(fontSize: 30.0, color: Colors.white))),
+        Divider(
+          thickness: 2.0,
+          color: Colors.blue,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Expanded(
+              child: Container(
+                height: 40.0,
+                alignment: Alignment.center,
+                child: Text("Current Streak",
+                    style: TextStyle(fontSize: 20.0, color: Colors.white)),
+              ),
             ),
-          ),
-          Container(
-            height: 150.0,
+            Expanded(
+              child: Container(
+                height: 40.0,
+                alignment: Alignment.center,
+                child: Text(
+                  "Best Streak",
+                  style: TextStyle(fontSize: 20.0, color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Expanded(
+              child: Container(
+                  height: 35.0,
+                  alignment: Alignment.center,
+                  child: Text("4 Days",
+                      style: TextStyle(fontSize: 20.0, color: Colors.white))),
+            ),
+            Expanded(
+              child: Container(
+                height: 35.0,
+                alignment: Alignment.center,
+                child: Text(
+                  "15 Days",
+                  style: TextStyle(fontSize: 20.0, color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
+        Container(
+          height: 40.0,
+        ),
+        Container(
+            height: 200.0,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  RaisedButton(
-                    onPressed: () {
-                      showPickerNumber(context);
-                    },
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 40.0,
-                      vertical: 10.0,
-                    ),
-                    color: Colors.grey,
-                    child: Text(
-                      "Set Time",
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.white,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: Container(
+                                height: 35.0,
+                                width: 100.0,
+                                alignment: Alignment.center,
+                                child: Text("This week:",
+                                    style: TextStyle(
+                                        fontSize: 20.0, color: Colors.white))),
+                          ),
+                          Expanded(
+                            child: Container(
+                                height: 35.0,
+                                width: 100.0,
+                                alignment: Alignment.center,
+                                child: Text(
+                                    (thisweekprocentage * 100).toString() +
+                                        " %",
+                                    style: TextStyle(
+                                        fontSize: 30.0, color: Colors.white))),
+                          ),
+                          Expanded(
+                            child: Container(
+                              height: 35.0,
+                              alignment: Alignment.center,
+                              child: Text(
+                                "15 Days",
+                                style: TextStyle(
+                                    fontSize: 20.0, color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                  ),
-                  RaisedButton(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 40.0,
-                      vertical: 10.0,
-                    ),
-                    color: Colors.grey,
-                    child: Text(
-                      "Confirm",
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.white,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          LinearPercentIndicator(
+                            progressColor: Colors.blueAccent,
+                            percent: thisweekprocentage,
+                            animation: true,
+                            width: 350,
+                            linearStrokeCap: LinearStrokeCap.round,
+                            backgroundColor: Colors.red,
+                            center: Text(
+                                (habitprocentage * 100).toString() + "%",
+                                style: TextStyle(
+                                    fontSize: 30.0, color: Colors.white)),
+                          ),
+                        ],
                       ),
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
+                    ],
                   ),
-                ]),
-          ),
-        ]));
-  }
-
-  Widget stopwatch() {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            flex: 2,
-            child: Container(
-              alignment: Alignment.center,
-              child: Text(
-                "Coding",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 45.0,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 5,
-            child: Container(
-              alignment: Alignment.center,
-              child: Text(
-                stoptimetodisplay,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 50.0,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 4,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                RaisedButton(
-                  onPressed: stopispressed ? null : stopstopwatch,
-                  color: Colors.grey,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 40.0,
-                    vertical: 15.0,
-                  ),
-                  child: Text(
-                    "Stop/Pause",
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    RaisedButton(
-                      onPressed: startispressed ? startstoptwatch : null,
-                      color: Colors.grey,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 40.0,
-                        vertical: 15.0,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: Container(
+                            height: 35.0,
+                            width: 100.0,
+                            alignment: Alignment.center,
+                            child: Text("This month:",
+                                style: TextStyle(
+                                    fontSize: 20.0, color: Colors.white))),
                       ),
-                      child: Text(
-                        startbuttontext,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          color: Colors.white,
+                      Expanded(
+                        child: Container(
+                            height: 35.0,
+                            width: 100.0,
+                            alignment: Alignment.center,
+                            child: Text(
+                                (thismonthprocentage * 100).toString() + " %",
+                                style: TextStyle(
+                                    fontSize: 30.0, color: Colors.white))),
+                      ),
+                      Expanded(
+                        child: Container(
+                          height: 35.0,
+                          alignment: Alignment.center,
+                          child: Text(
+                            "7 Days",
+                            style:
+                                TextStyle(fontSize: 20.0, color: Colors.white),
+                          ),
                         ),
                       ),
-                    ),
-                    RaisedButton(
-                      color: Colors.grey,
-                      onPressed: resetispressed ? null : resetstopwatch,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 40.0,
-                        vertical: 15.0,
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      LinearPercentIndicator(
+                        progressColor: Colors.blueAccent,
+                        percent: thismonthprocentage,
+                        animation: true,
+                        width: 350,
+                        linearStrokeCap: LinearStrokeCap.round,
+                        backgroundColor: Colors.red,
+                        center: Text((habitprocentage * 100).toString() + "%",
+                            style:
+                                TextStyle(fontSize: 30.0, color: Colors.white)),
                       ),
-                      child: Text(
-                        "Reset",
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          color: Colors.white,
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: Container(
+                            height: 35.0,
+                            width: 100.0,
+                            alignment: Alignment.center,
+                            child: Text("This year:",
+                                style: TextStyle(
+                                    fontSize: 20.0, color: Colors.white))),
+                      ),
+                      Expanded(
+                        child: Container(
+                            height: 35.0,
+                            width: 100.0,
+                            alignment: Alignment.center,
+                            child: Text(
+                                (thisyearprocentage * 100).toString() + " %",
+                                style: TextStyle(
+                                    fontSize: 30.0, color: Colors.white))),
+                      ),
+                      Expanded(
+                        child: Container(
+                          height: 35.0,
+                          alignment: Alignment.center,
+                          child: Text(
+                            "19 Days",
+                            style:
+                                TextStyle(fontSize: 20.0, color: Colors.white),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      LinearPercentIndicator(
+                        progressColor: Colors.blueAccent,
+                        percent: thisyearprocentage,
+                        animation: true,
+                        width: 350,
+                        linearStrokeCap: LinearStrokeCap.round,
+                        backgroundColor: Colors.red,
+                        center: Text((habitprocentage * 100).toString() + "%",
+                            style:
+                                TextStyle(fontSize: 30.0, color: Colors.white)),
+                      ),
+                    ],
+                  ),
+                ])),
+      ]),
     );
   }
+
+  Widget calendar_Habit() {
+    return SingleChildScrollView(
+      child: Column(children: [
+        Container(
+          width: 400,
+          alignment: Alignment.topCenter,
+          child: TableCalendar(
+            daysOfWeekStyle: DaysOfWeekStyle(
+                weekdayStyle: TextStyle(color: Colors.white),
+                weekendStyle: TextStyle(color: Colors.blueAccent)),
+            startingDayOfWeek: StartingDayOfWeek.monday,
+            headerStyle: HeaderStyle(
+              leftChevronIcon: Icon(Icons.chevron_left, color: Colors.white),
+              rightChevronIcon: Icon(Icons.chevron_right, color: Colors.white),
+              centerHeaderTitle: true,
+              titleTextStyle: TextStyle(
+                color: Colors.white,
+              ),
+              formatButtonVisible: false,
+            ),
+            initialCalendarFormat: CalendarFormat.month,
+            calendarStyle: CalendarStyle(
+              todayColor: Colors.grey,
+              selectedColor: Colors.blueAccent,
+              weekdayStyle: TextStyle(
+                color: Colors.white,
+              ),
+              unavailableStyle: TextStyle(color: Colors.white),
+              weekendStyle: TextStyle(color: Colors.white54),
+              todayStyle: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            calendarController: _controller,
+          ),
+        ),
+        Divider(
+          thickness: 2.0,
+          color: Colors.blue,
+        ),
+        Container(
+          height: 50,
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            Text("Start-Date:",
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.white,
+                )),
+            Text("22 August 2020",
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.white,
+                )),
+          ]),
+        ),
+      ]),
+    );
+  }
+
+
+  Widget _settinglist() => ListView(
+    children: [
+      _title('Habit name', 'Coding' ),
+      Divider(
+        thickness: 3.0,
+        color: Colors.blue,
+      ),
+      _title('Category', 'Finance'),
+      Divider(
+        thickness: 3.0,
+        color: Colors.blue,
+      ),
+      _title('Habit', 'Yes/No Habit'),
+      Divider(
+        thickness: 3.0,
+        color: Colors.blue,
+      ),
+      _title('Frequency', 'Every day'),
+      Divider(
+        thickness: 3.0,
+        color: Colors.blue,
+      ),
+      _title('Start Date', '22 August 2020'),
+      Divider(
+        thickness: 3.0,
+        color: Colors.blue,
+      ),
+    ],
+  );
+
+  ListTile _title(String title, String subtitle) => ListTile(
+    title: Text(title,
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w500,
+          fontSize: 20,
+        )),
+    subtitle: Text(subtitle,
+        style: TextStyle(
+          color: Colors.white,
+        ),
+    ),
+    trailing:
+    Icon(
+      Icons.edit,
+      color: Colors.grey,
+    ),
+  );
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -445,8 +485,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         bottom: TabBar(
           indicatorColor: Colors.white,
           tabs: <Widget>[
-            Text("Start"),
-            Text("Manual"),
+            Icon(Icons.data_usage),
+            Icon(Icons.calendar_today),
+            Icon(Icons.settings),
           ],
           labelPadding: EdgeInsets.only(
             bottom: 10.0,
@@ -460,8 +501,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       ),
       body: TabBarView(
         children: <Widget>[
-          stopwatch(),
-          manual(),
+          statistics_Habit(),
+          calendar_Habit(),
+          _settinglist(),
         ],
         controller: tb,
       ),

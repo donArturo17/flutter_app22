@@ -5,17 +5,17 @@ import 'package:flutter/material.dart';
 
 Widget _categorylist() => ListView(
   children: [
-    _tile('Health', 'e.g. Fitness, Sport, etc.' ,Icons.accessibility),
+    _title('Health', 'e.g. Fitness, Sport, etc.' ,Icons.accessibility),
     Divider(
       thickness: 3.0,
       color: Colors.blue,
     ),
-    _tile('Finance', 'e.g. saving every day 20', Icons.attach_money),
+    _title('Finance', 'e.g. saving every day 20', Icons.attach_money),
     Divider(
       thickness: 3.0,
       color: Colors.blue,
     ),
-    _tile('Education', 'e.g. study French, etc.', Icons.school),
+    _title('Education', 'e.g. study French, etc.', Icons.school),
     Divider(
       thickness: 3.0,
       color: Colors.blue,
@@ -23,7 +23,7 @@ Widget _categorylist() => ListView(
   ],
 );
 
-ListTile _tile(String title, String subtitle, IconData iconhabit) => ListTile(
+ListTile _title(String title, String subtitle, IconData iconhabit) => ListTile(
   title: Text(title,
       style: TextStyle(
         color: Colors.white,
