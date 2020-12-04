@@ -10,7 +10,6 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'Category_list.dart';
-import 'package:bezier_chart/bezier_chart.dart';
 
 void main() {
   runApp(MyApp());
@@ -135,53 +134,63 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               center: Text((habitprocentage * 100).toString() + "%",
                   style: TextStyle(fontSize: 30.0, color: Colors.white)),
             )),
-            Container(
-              width: 500,
-                height:300,
-              child: BezierChart(
-
-                  bezierChartScale: BezierChartScale.CUSTOM,
-                xAxisCustomValues: const[1, 2, 3, 4, 5, 6, 7, 8, 9 ],
-                series: const[
-                  BezierLine(
-                    dataPointFillColor: Colors.grey,
-                    lineColor: Colors.blue,
-                    data: const[
-                      DataPoint<double>(value: 5, xAxis:1),
-                      DataPoint<double>(value: 7, xAxis:2),
-                      DataPoint<double>(value: 9, xAxis:3),
-                      DataPoint<double>(value: 1, xAxis:4),
-                      DataPoint<double>(value: 5, xAxis:5),
-                      DataPoint<double>(value: 9, xAxis:6),
-                      DataPoint<double>(value: 9, xAxis:7),
-                      DataPoint<double>(value: 8, xAxis:8),
-                      DataPoint<double>(value: 8, xAxis:9),
-                    ],
-                  ),
-                ],
-                config: BezierChartConfig(
-xLinesColor: Colors.green,
-                  bubbleIndicatorColor: Colors.yellow,
-
-                  verticalIndicatorStrokeWidth: 10.0,
-                  verticalIndicatorColor: Colors.white,
-                  showVerticalIndicator: true,
-                  showDataPoints: true,
-                  snap: false,
-                )
-              ),
-            ),
-
-
         Container(
             height: 50.0,
             width: 400,
             alignment: Alignment.center,
-            child: Text("All Habits",
+            child: Text("Statistics",
                 style: TextStyle(fontSize: 30.0, color: Colors.white))),
         Divider(
           thickness: 2.0,
           color: Colors.blue,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Expanded(
+              child: Container(
+                height: 40.0,
+                alignment: Alignment.center,
+                child: Text("Current Streak",
+                    style: TextStyle(fontSize: 20.0, color: Colors.white)),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                height: 40.0,
+                alignment: Alignment.center,
+                child: Text(
+                  "Best Streak",
+                  style: TextStyle(fontSize: 20.0, color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Expanded(
+              child: Container(
+                  height: 35.0,
+                  alignment: Alignment.center,
+                  child: Text("4 Days",
+                      style: TextStyle(fontSize: 20.0, color: Colors.white))),
+            ),
+            Expanded(
+              child: Container(
+                height: 35.0,
+                alignment: Alignment.center,
+                child: Text(
+                  "15 Days",
+                  style: TextStyle(fontSize: 20.0, color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
+        Container(
+          height: 40.0,
         ),
         Container(
             height: 200.0,
@@ -198,185 +207,154 @@ xLinesColor: Colors.green,
                             child: Container(
                                 height: 35.0,
                                 width: 100.0,
-                                alignment: Alignment.centerLeft,
-                                child: Text("Habit#1:",
+                                alignment: Alignment.center,
+                                child: Text("This week:",
                                     style: TextStyle(
-                                        fontSize: 17.0, color: Colors.white))),
+                                        fontSize: 20.0, color: Colors.white))),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              LinearPercentIndicator(
-                                progressColor: Colors.blueAccent,
-                                percent: thisweekprocentage,
-                                animation: true,
-                                width: 300,
-                                linearStrokeCap: LinearStrokeCap.round,
-                                backgroundColor: Colors.red,
-                                center: Text(
-                                    (habitprocentage * 100).toString() + "%",
-                                    style: TextStyle(
-                                        fontSize: 30.0, color: Colors.white)),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            child: Text(
-                                (habitprocentage * 100).toString() + "%",
-                                style: TextStyle(
-                                    fontSize: 15.0, color: Colors.white)),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
                           Expanded(
                             child: Container(
                                 height: 35.0,
                                 width: 100.0,
-                                alignment: Alignment.centerLeft,
-                                child: Text("Habit#1:",
+                                alignment: Alignment.center,
+                                child: Text(
+                                    (thisweekprocentage * 100).toString() +
+                                        " %",
                                     style: TextStyle(
-                                        fontSize: 17.0, color: Colors.white))),
+                                        fontSize: 30.0, color: Colors.white))),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              LinearPercentIndicator(
-                                progressColor: Colors.blueAccent,
-                                percent: thisweekprocentage,
-                                animation: true,
-                                width: 300,
-                                linearStrokeCap: LinearStrokeCap.round,
-                                backgroundColor: Colors.red,
-                                center: Text(
-                                    (habitprocentage * 100).toString() + "%",
-                                    style: TextStyle(
-                                        fontSize: 30.0, color: Colors.white)),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            child: Text(
-                                (habitprocentage * 100).toString() + "%",
+                          Expanded(
+                            child: Container(
+                              height: 35.0,
+                              alignment: Alignment.center,
+                              child: Text(
+                                "15 Days",
                                 style: TextStyle(
-                                    fontSize: 15.0, color: Colors.white)),
+                                    fontSize: 20.0, color: Colors.white),
+                              ),
+                            ),
                           ),
                         ],
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Expanded(
-                            child: Container(
-                                height: 35.0,
-                                width: 100.0,
-                                alignment: Alignment.centerLeft,
-                                child: Text("Habit#1:",
-                                    style: TextStyle(
-                                        fontSize: 17.0, color: Colors.white))),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              LinearPercentIndicator(
-                                progressColor: Colors.blueAccent,
-                                percent: thisweekprocentage,
-                                animation: true,
-                                width: 300,
-                                linearStrokeCap: LinearStrokeCap.round,
-                                backgroundColor: Colors.red,
-                                center: Text(
-                                    (habitprocentage * 100).toString() + "%",
-                                    style: TextStyle(
-                                        fontSize: 30.0, color: Colors.white)),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            child: Text(
+                          LinearPercentIndicator(
+                            progressColor: Colors.blueAccent,
+                            percent: thisweekprocentage,
+                            animation: true,
+                            width: 350,
+                            linearStrokeCap: LinearStrokeCap.round,
+                            backgroundColor: Colors.red,
+                            center: Text(
                                 (habitprocentage * 100).toString() + "%",
                                 style: TextStyle(
-                                    fontSize: 15.0, color: Colors.white)),
+                                    fontSize: 30.0, color: Colors.white)),
                           ),
                         ],
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            child: Container(
-                                height: 35.0,
-                                width: 100.0,
-                                alignment: Alignment.centerLeft,
-                                child: Text("Habit#1:",
-                                    style: TextStyle(
-                                        fontSize: 17.0, color: Colors.white))),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              LinearPercentIndicator(
-                                progressColor: Colors.blueAccent,
-                                percent: thisweekprocentage,
-                                animation: true,
-                                width: 300,
-                                linearStrokeCap: LinearStrokeCap.round,
-                                backgroundColor: Colors.red,
-                                center: Text(
-                                    (habitprocentage * 100).toString() + "%",
-                                    style: TextStyle(
-                                        fontSize: 30.0, color: Colors.white)),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            child: Text(
-                                (habitprocentage * 100).toString() + "%",
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: Container(
+                            height: 35.0,
+                            width: 100.0,
+                            alignment: Alignment.center,
+                            child: Text("This month:",
                                 style: TextStyle(
-                                    fontSize: 15.0, color: Colors.white)),
-                          ),
-                        ],
+                                    fontSize: 20.0, color: Colors.white))),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            child: Container(
-                                height: 35.0,
-                                width: 100.0,
-                                alignment: Alignment.centerLeft,
-                                child: Text("Habit#1:",
-                                    style: TextStyle(
-                                        fontSize: 17.0, color: Colors.white))),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              LinearPercentIndicator(
-                                progressColor: Colors.blueAccent,
-                                percent: thisweekprocentage,
-                                animation: true,
-                                width: 300,
-                                linearStrokeCap: LinearStrokeCap.round,
-                                backgroundColor: Colors.red,
-                                center: Text(
-                                    (habitprocentage * 100).toString() + "%",
-                                    style: TextStyle(
-                                        fontSize: 30.0, color: Colors.white)),
-                              ),
-                            ],
-                          ),
-                          Container(
+                      Expanded(
+                        child: Container(
+                            height: 35.0,
+                            width: 100.0,
+                            alignment: Alignment.center,
                             child: Text(
-                                (habitprocentage * 100).toString() + "%",
+                                (thismonthprocentage * 100).toString() + " %",
                                 style: TextStyle(
-                                    fontSize: 15.0, color: Colors.white)),
-                          ),
-                        ],
+                                    fontSize: 30.0, color: Colors.white))),
                       ),
-
+                      Expanded(
+                        child: Container(
+                          height: 35.0,
+                          alignment: Alignment.center,
+                          child: Text(
+                            "7 Days",
+                            style:
+                            TextStyle(fontSize: 20.0, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      LinearPercentIndicator(
+                        progressColor: Colors.blueAccent,
+                        percent: thismonthprocentage,
+                        animation: true,
+                        width: 350,
+                        linearStrokeCap: LinearStrokeCap.round,
+                        backgroundColor: Colors.red,
+                        center: Text((habitprocentage * 100).toString() + "%",
+                            style:
+                            TextStyle(fontSize: 30.0, color: Colors.white)),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: Container(
+                            height: 35.0,
+                            width: 100.0,
+                            alignment: Alignment.center,
+                            child: Text("This year:",
+                                style: TextStyle(
+                                    fontSize: 20.0, color: Colors.white))),
+                      ),
+                      Expanded(
+                        child: Container(
+                            height: 35.0,
+                            width: 100.0,
+                            alignment: Alignment.center,
+                            child: Text(
+                                (thisyearprocentage * 100).toString() + " %",
+                                style: TextStyle(
+                                    fontSize: 30.0, color: Colors.white))),
+                      ),
+                      Expanded(
+                        child: Container(
+                          height: 35.0,
+                          alignment: Alignment.center,
+                          child: Text(
+                            "19 Days",
+                            style:
+                            TextStyle(fontSize: 20.0, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      LinearPercentIndicator(
+                        progressColor: Colors.blueAccent,
+                        percent: thisyearprocentage,
+                        animation: true,
+                        width: 350,
+                        linearStrokeCap: LinearStrokeCap.round,
+                        backgroundColor: Colors.red,
+                        center: Text((habitprocentage * 100).toString() + "%",
+                            style:
+                            TextStyle(fontSize: 30.0, color: Colors.white)),
+                      ),
                     ],
                   ),
                 ])),
