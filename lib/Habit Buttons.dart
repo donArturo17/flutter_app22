@@ -16,7 +16,7 @@ class Simplehabit extends StatelessWidget {
         ),
         color : Color.fromRGBO(120, 120, 120, 1),
       ),
-      child: Text('Yes No Habit',textAlign: TextAlign.center, style: TextStyle(
+      child: Text('Yes',textAlign: TextAlign.center, style: TextStyle(
         color: Color.fromRGBO(242, 242, 242, 1),
         fontFamily: 'Roboto',
         fontSize: 20,
@@ -41,7 +41,7 @@ class Countinghabit extends StatelessWidget {
         ),
         color : Color.fromRGBO(120, 120, 120, 1),
       ),
-      child: Text('Counting Habit',textAlign: TextAlign.center, style: TextStyle(
+      child: Text('no',textAlign: TextAlign.center, style: TextStyle(
         color: Color.fromRGBO(242, 242, 242, 1),
         fontFamily: 'Roboto',
         fontSize: 20,

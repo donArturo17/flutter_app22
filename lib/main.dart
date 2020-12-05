@@ -1,16 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app22/Habit%20Buttons.dart';
-import 'package:stop_watch_timer/stop_watch_timer.dart';
-import 'package:numberpicker/numberpicker.dart';
-import 'package:table_calendar/table_calendar.dart';
-
-import 'package:flutter_picker/flutter_picker.dart';
-import 'package:percent_indicator/percent_indicator.dart';
-import 'Category_list.dart';
-import 'package:bezier_chart/bezier_chart.dart';
 
 void main() {
   runApp(MyApp());
@@ -60,7 +50,7 @@ class MyHomePage extends StatefulWidget {
 
 double Textgr = 2.1;
 
-class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
   void _incrementCounter() {
@@ -75,425 +65,123 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   }
 
   int _currentIndex = 0;
-
+  DateTime now = new DateTime.now();
   var _periods = ['day', 'week', 'month'];
   var _periodItemSelected = 'day';
-  DateTime now = DateTime.now();
-  TabController tb;
-  int hour = 0;
-  int min = 0;
-  int sec = 0;
-  int timeForSafe = 0;
-  String timetodisplay = "";
-  CalendarController _controller;
-  final dur = const Duration(seconds: 1);
+  bool normalbuttonselected = false;
+  bool vicebuttonselected = false;
+  bool everydaybuttonselected = false;
+  bool everyweekbuttonselected = false;
+  bool everymonthbuttonselected = false;
+  bool everyyearbuttonselected = false;
+  bool weekdaysbuttonselected = false;
 
-  bool startispressed = true;
-  bool stopispressed = true;
-  bool resetispressed = true;
-  String stoptimetodisplay = "00:00:00";
-  var swatch = Stopwatch();
-  String startbuttontext = "Start";
 
-  @override
-  void initState() {
-    tb = TabController(
-      length: 3,
-      vsync: this,
-    );
-    super.initState();
-    _controller = CalendarController();
+  var buttoncolornormal = Color.fromRGBO(120, 120, 120, 1);
+  var buttoncolorvice = Color.fromRGBO(120, 120, 120, 1);
+  var buttoncoloreveryday = Color.fromRGBO(120, 120, 120, 1);
+  var buttoncoloreveryweek = Color.fromRGBO(120, 120, 120, 1);
+  var buttoncoloreverymonth = Color.fromRGBO(120, 120, 120, 1);
+  var buttoncoloreveryyear = Color.fromRGBO(120, 120, 120, 1);
+  var buttoncolorweekdays = Color.fromRGBO(120, 120, 120, 1);
+
+  var buttoncolornotactive = Color.fromRGBO(120, 120, 120, 1);
+  var buttoncoloractive = Color.fromRGBO(54, 182, 255, 1);
+
+  void normalselected() {
+    setState(() {
+      normalbuttonselected = true;
+      vicebuttonselected = false;
+      buttoncolornormal = buttoncoloractive;
+      buttoncolorvice = buttoncolornotactive;
+    });
   }
 
-  double habitprocentage = 0.789;
-  double thisweekprocentage = 0.489;
-  double thismonthprocentage = 0.888;
-  double thisyearprocentage = 0.184;
+  void viceselected() {
+    setState(() {
+      normalbuttonselected = false;
+      vicebuttonselected = true;
+      buttoncolornormal = buttoncolornotactive;
+      buttoncolorvice = buttoncoloractive;
+    });
+  }
+  void everydayselected() {
+    setState(() {
+      everydaybuttonselected = true;
+      everyweekbuttonselected = false;
+      everymonthbuttonselected = false;
+      everyyearbuttonselected = false;
+      weekdaysbuttonselected = false;
+      buttoncoloreveryday = buttoncoloractive;
+      buttoncoloreveryweek = buttoncolornotactive;
+      buttoncoloreverymonth = buttoncolornotactive;
+      buttoncoloreveryyear = buttoncolornotactive;
+      buttoncolorweekdays = buttoncolornotactive;
 
-  Widget statistics_Habit() {
-    return SingleChildScrollView(
-      child: Column(children: [
-        Container(
-            height: 40.0,
-            alignment: Alignment.center,
-            child: Text("Total Score",
-                style: TextStyle(
-                  fontSize: 25.0,
-                  color: Colors.white,
-                ))),
-        Container(
-            height: 300,
-            width: 300,
-            child: CircularPercentIndicator(
-              progressColor: Colors.blueAccent,
-              percent: habitprocentage,
-              animation: true,
-              radius: 250.0,
-              lineWidth: 15.0,
-              circularStrokeCap: CircularStrokeCap.round,
-              backgroundColor: Colors.grey,
-              center: Text((habitprocentage * 100).toString() + "%",
-                  style: TextStyle(fontSize: 30.0, color: Colors.white)),
-            )),
-            Container(
-              width: 500,
-                height:300,
-              child: BezierChart(
-
-                  bezierChartScale: BezierChartScale.CUSTOM,
-                xAxisCustomValues: const[1, 2, 3, 4, 5, 6, 7, 8, 9 ],
-                series: const[
-                  BezierLine(
-                    dataPointFillColor: Colors.grey,
-                    lineColor: Colors.blue,
-                    data: const[
-                      DataPoint<double>(value: 5, xAxis:1),
-                      DataPoint<double>(value: 7, xAxis:2),
-                      DataPoint<double>(value: 9, xAxis:3),
-                      DataPoint<double>(value: 1, xAxis:4),
-                      DataPoint<double>(value: 5, xAxis:5),
-                      DataPoint<double>(value: 9, xAxis:6),
-                      DataPoint<double>(value: 9, xAxis:7),
-                      DataPoint<double>(value: 8, xAxis:8),
-                      DataPoint<double>(value: 8, xAxis:9),
-                    ],
-                  ),
-                ],
-                config: BezierChartConfig(
-xLinesColor: Colors.green,
-                  bubbleIndicatorColor: Colors.yellow,
-
-                  verticalIndicatorStrokeWidth: 10.0,
-                  verticalIndicatorColor: Colors.white,
-                  showVerticalIndicator: true,
-                  showDataPoints: true,
-                  snap: false,
-                )
-              ),
-            ),
-
-
-        Container(
-            height: 50.0,
-            width: 400,
-            alignment: Alignment.center,
-            child: Text("All Habits",
-                style: TextStyle(fontSize: 30.0, color: Colors.white))),
-        Divider(
-          thickness: 2.0,
-          color: Colors.blue,
-        ),
-        Container(
-            height: 200.0,
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            child: Container(
-                                height: 35.0,
-                                width: 100.0,
-                                alignment: Alignment.centerLeft,
-                                child: Text("Habit#1:",
-                                    style: TextStyle(
-                                        fontSize: 17.0, color: Colors.white))),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              LinearPercentIndicator(
-                                progressColor: Colors.blueAccent,
-                                percent: thisweekprocentage,
-                                animation: true,
-                                width: 300,
-                                linearStrokeCap: LinearStrokeCap.round,
-                                backgroundColor: Colors.red,
-                                center: Text(
-                                    (habitprocentage * 100).toString() + "%",
-                                    style: TextStyle(
-                                        fontSize: 30.0, color: Colors.white)),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            child: Text(
-                                (habitprocentage * 100).toString() + "%",
-                                style: TextStyle(
-                                    fontSize: 15.0, color: Colors.white)),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            child: Container(
-                                height: 35.0,
-                                width: 100.0,
-                                alignment: Alignment.centerLeft,
-                                child: Text("Habit#1:",
-                                    style: TextStyle(
-                                        fontSize: 17.0, color: Colors.white))),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              LinearPercentIndicator(
-                                progressColor: Colors.blueAccent,
-                                percent: thisweekprocentage,
-                                animation: true,
-                                width: 300,
-                                linearStrokeCap: LinearStrokeCap.round,
-                                backgroundColor: Colors.red,
-                                center: Text(
-                                    (habitprocentage * 100).toString() + "%",
-                                    style: TextStyle(
-                                        fontSize: 30.0, color: Colors.white)),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            child: Text(
-                                (habitprocentage * 100).toString() + "%",
-                                style: TextStyle(
-                                    fontSize: 15.0, color: Colors.white)),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            child: Container(
-                                height: 35.0,
-                                width: 100.0,
-                                alignment: Alignment.centerLeft,
-                                child: Text("Habit#1:",
-                                    style: TextStyle(
-                                        fontSize: 17.0, color: Colors.white))),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              LinearPercentIndicator(
-                                progressColor: Colors.blueAccent,
-                                percent: thisweekprocentage,
-                                animation: true,
-                                width: 300,
-                                linearStrokeCap: LinearStrokeCap.round,
-                                backgroundColor: Colors.red,
-                                center: Text(
-                                    (habitprocentage * 100).toString() + "%",
-                                    style: TextStyle(
-                                        fontSize: 30.0, color: Colors.white)),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            child: Text(
-                                (habitprocentage * 100).toString() + "%",
-                                style: TextStyle(
-                                    fontSize: 15.0, color: Colors.white)),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            child: Container(
-                                height: 35.0,
-                                width: 100.0,
-                                alignment: Alignment.centerLeft,
-                                child: Text("Habit#1:",
-                                    style: TextStyle(
-                                        fontSize: 17.0, color: Colors.white))),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              LinearPercentIndicator(
-                                progressColor: Colors.blueAccent,
-                                percent: thisweekprocentage,
-                                animation: true,
-                                width: 300,
-                                linearStrokeCap: LinearStrokeCap.round,
-                                backgroundColor: Colors.red,
-                                center: Text(
-                                    (habitprocentage * 100).toString() + "%",
-                                    style: TextStyle(
-                                        fontSize: 30.0, color: Colors.white)),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            child: Text(
-                                (habitprocentage * 100).toString() + "%",
-                                style: TextStyle(
-                                    fontSize: 15.0, color: Colors.white)),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            child: Container(
-                                height: 35.0,
-                                width: 100.0,
-                                alignment: Alignment.centerLeft,
-                                child: Text("Habit#1:",
-                                    style: TextStyle(
-                                        fontSize: 17.0, color: Colors.white))),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              LinearPercentIndicator(
-                                progressColor: Colors.blueAccent,
-                                percent: thisweekprocentage,
-                                animation: true,
-                                width: 300,
-                                linearStrokeCap: LinearStrokeCap.round,
-                                backgroundColor: Colors.red,
-                                center: Text(
-                                    (habitprocentage * 100).toString() + "%",
-                                    style: TextStyle(
-                                        fontSize: 30.0, color: Colors.white)),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            child: Text(
-                                (habitprocentage * 100).toString() + "%",
-                                style: TextStyle(
-                                    fontSize: 15.0, color: Colors.white)),
-                          ),
-                        ],
-                      ),
-
-                    ],
-                  ),
-                ])),
-      ]),
-    );
+    });
   }
 
-  Widget calendar_Habit() {
-    return SingleChildScrollView(
-      child: Column(children: [
-        Container(
-          width: 400,
-          alignment: Alignment.topCenter,
-          child: TableCalendar(
-            daysOfWeekStyle: DaysOfWeekStyle(
-                weekdayStyle: TextStyle(color: Colors.white),
-                weekendStyle: TextStyle(color: Colors.blueAccent)),
-            startingDayOfWeek: StartingDayOfWeek.monday,
-            headerStyle: HeaderStyle(
-              leftChevronIcon: Icon(Icons.chevron_left, color: Colors.white),
-              rightChevronIcon: Icon(Icons.chevron_right, color: Colors.white),
-              centerHeaderTitle: true,
-              titleTextStyle: TextStyle(
-                color: Colors.white,
-              ),
-              formatButtonVisible: false,
-            ),
-            initialCalendarFormat: CalendarFormat.month,
-            calendarStyle: CalendarStyle(
-              todayColor: Colors.grey,
-              selectedColor: Colors.blueAccent,
-              weekdayStyle: TextStyle(
-                color: Colors.white,
-              ),
-              unavailableStyle: TextStyle(color: Colors.white),
-              weekendStyle: TextStyle(color: Colors.white54),
-              todayStyle: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-            calendarController: _controller,
-          ),
-        ),
-        Divider(
-          thickness: 2.0,
-          color: Colors.blue,
-        ),
-        Container(
-          height: 50,
-          child:
-          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            Text("Start-Date:",
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.white,
-                )),
-            Text("22 August 2020",
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.white,
-                )),
-          ]),
-        ),
-      ]),
-    );
+  void everyweekselected() {
+    setState(() {
+      everydaybuttonselected = false;
+      everyweekbuttonselected = true;
+      everymonthbuttonselected = false;
+      everyyearbuttonselected = false;
+      weekdaysbuttonselected = false;
+      buttoncoloreveryday = buttoncolornotactive;
+      buttoncoloreveryweek = buttoncoloractive;
+      buttoncoloreverymonth = buttoncolornotactive;
+      buttoncoloreveryyear = buttoncolornotactive;
+      buttoncolorweekdays = buttoncolornotactive;
+
+    });
   }
 
 
-  Widget _settinglist() => ListView(
-    children: [
-      _title('Habit name', 'Coding' ),
-      Divider(
-        thickness: 3.0,
-        color: Colors.blue,
-      ),
-      _title('Category', 'Finance'),
-      Divider(
-        thickness: 3.0,
-        color: Colors.blue,
-      ),
-      _title('Habit', 'Yes/No Habit'),
-      Divider(
-        thickness: 3.0,
-        color: Colors.blue,
-      ),
-      _title('Frequency', 'Every day'),
-      Divider(
-        thickness: 3.0,
-        color: Colors.blue,
-      ),
-      _title('Start Date', '22 August 2020'),
-      Divider(
-        thickness: 3.0,
-        color: Colors.blue,
-      ),
-    ],
-  );
+  void everymonthselected() {
+    setState(() {
+      everydaybuttonselected = false;
+      everyweekbuttonselected = false;
+      everymonthbuttonselected = true;
+      everyyearbuttonselected = false;
+      weekdaysbuttonselected = false;
+      buttoncoloreveryday = buttoncolornotactive;
+      buttoncoloreveryweek = buttoncolornotactive;
+      buttoncoloreverymonth = buttoncoloractive;
+      buttoncoloreveryyear = buttoncolornotactive;
+      buttoncolorweekdays = buttoncolornotactive;
+    });
+  }
 
-  ListTile _title(String title, String subtitle) => ListTile(
-    title: Text(title,
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.w500,
-          fontSize: 20,
-        )),
-    subtitle: Text(subtitle,
-      style: TextStyle(
-        color: Colors.white,
-      ),
-    ),
-    trailing:
-    Icon(
-      Icons.edit,
-      color: Colors.grey,
-    ),
-  );
+  void everyyearselected() {
+    setState(() {
+      everydaybuttonselected = false;
+      everyweekbuttonselected = false;
+      everymonthbuttonselected = false;
+      everyyearbuttonselected = true;
+      weekdaysbuttonselected = false;
+      buttoncoloreveryday = buttoncolornotactive;
+      buttoncoloreveryweek = buttoncolornotactive;
+      buttoncoloreverymonth = buttoncolornotactive;
+      buttoncoloreveryyear = buttoncoloractive;
+      buttoncolorweekdays = buttoncolornotactive;
+    });
+  }
 
+  void weeekdaysselected() {
+    setState(() {
+      everydaybuttonselected = false;
+      everyweekbuttonselected = false;
+      everymonthbuttonselected = false;
+      everyyearbuttonselected = false;
+      weekdaysbuttonselected = true;
+      buttoncoloreveryday = buttoncolornotactive;
+      buttoncoloreveryweek = buttoncolornotactive;
+      buttoncoloreverymonth = buttoncolornotactive;
+      buttoncoloreveryyear = buttoncolornotactive;
+      buttoncolorweekdays = buttoncoloractive;
+    });
+  }
 
 
   @override
@@ -504,30 +192,107 @@ xLinesColor: Colors.green,
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
         centerTitle: true,
-        bottom: TabBar(
-          indicatorColor: Colors.white,
-          tabs: <Widget>[
-            Icon(Icons.data_usage),
-            Icon(Icons.calendar_today),
-            Icon(Icons.settings),
-          ],
-          labelPadding: EdgeInsets.only(
-            bottom: 10.0,
-          ),
-          labelStyle: TextStyle(
-            fontSize: 20.0,
-          ),
-          unselectedLabelColor: Colors.black,
-          controller: tb,
-        ),
       ),
-      body: TabBarView(
-        children: <Widget>[
-          statistics_Habit(),
-          calendar_Habit(),
-          _settinglist(),
-        ],
-        controller: tb,
+      body: SingleChildScrollView(
+        child: Column(children: <Widget>[
+          Container(
+              width: 500,
+              height: 100,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Text('Name of your Yes/No Habit?',
+                        style: TextStyle(fontSize: 20.0, color: Colors.white)),
+                    Nameofhabit(),
+                  ])),
+          Divider(
+            color: Color.fromRGBO(54, 182, 255, 1),
+            thickness: 3,
+          ),
+          Container(
+            color: Colors.green,
+            height: 100,
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Text('Category',
+                      style: TextStyle(fontSize: 18.0, color: Colors.white)),
+                  SelectCategory(),
+                ]),
+          ),
+          Divider(
+            color: Color.fromRGBO(54, 182, 255, 1),
+            thickness: 3,
+          ),
+          Text("Function",
+              style: TextStyle(fontSize: 18.0, color: Colors.white)),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget> [
+              RaisedButton(
+                  splashColor: Color.fromRGBO(54, 182, 255, 1),
+                color: buttoncolornormal,
+                  child: Text("Normal", style: TextStyle(fontSize: 18.0, color: Colors.white)),
+          onPressed: normalselected,),
+              RaisedButton(
+                  splashColor: Color.fromRGBO(54, 182, 255, 1),
+                color: buttoncolorvice,
+                  child: Text("Vice", style: TextStyle(fontSize: 18.0, color: Colors.white)),
+                  onPressed: viceselected,),
+
+
+            ]
+
+          ),
+        Divider(
+            color: Color.fromRGBO(54, 182, 255, 1),
+            thickness: 3,),
+          Text("Period",
+              style: TextStyle(fontSize: 18.0, color: Colors.white)),
+          Column(
+            children: <Widget> [
+              RaisedButton(
+                splashColor: Color.fromRGBO(54, 182, 255, 1),
+                color: buttoncoloreveryday,
+                child: Text("Every Day", style: TextStyle(fontSize: 18.0, color: Colors.white)),
+                onPressed: everydayselected,),
+              RaisedButton(
+                splashColor: Color.fromRGBO(54, 182, 255, 1),
+                color: buttoncoloreveryweek,
+                child: Text("Every Week", style: TextStyle(fontSize: 18.0, color: Colors.white)),
+                onPressed: everyweekselected,),
+              RaisedButton(
+                splashColor: Color.fromRGBO(54, 182, 255, 1),
+                color: buttoncoloreverymonth,
+                child: Text("Every Month", style: TextStyle(fontSize: 18.0, color: Colors.white)),
+                onPressed: everymonthselected,),
+              RaisedButton(
+                splashColor: Color.fromRGBO(54, 182, 255, 1),
+                color: buttoncoloreveryyear,
+                child: Text("Every Year", style: TextStyle(fontSize: 18.0, color: Colors.white)),
+                onPressed: everyyearselected,),
+              RaisedButton(
+                splashColor: Color.fromRGBO(54, 182, 255, 1),
+                color: buttoncolorweekdays,
+                child: Text("Select week days", style: TextStyle(fontSize: 18.0, color: Colors.white)),
+                onPressed: weeekdaysselected,),
+
+            ],
+          ),
+          Divider(
+            color: Color.fromRGBO(54, 182, 255, 1),
+            thickness: 3,),
+          Text("Color",
+              style: TextStyle(fontSize: 18.0, color: Colors.white)),
+          Container(
+            height: 600,
+            color: Colors.red,
+
+          ),
+
+
+
+        ]),
       ),
       backgroundColor: Color.fromRGBO(53, 53, 53, 1),
       bottomNavigationBar: BottomNavigationBar(
@@ -551,6 +316,98 @@ xLinesColor: Colors.green,
               _currentIndex = index;
             });
           }),
+    );
+  }
+}
+
+
+
+class Nameofhabit extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // Figma Flutter Generator Component2Widget - INSTANCE
+    return Container(
+      width: 327,
+      height: 36,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        border: Border.all(color: Color.fromRGBO(54, 182, 255, 1), width: 2.0),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+        color: Color.fromRGBO(120, 120, 120, 1),
+      ),
+      child: TextField(
+        textAlign: TextAlign.center,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: 'Name your habit here',
+          hintStyle: TextStyle(color: Colors.grey),
+        ),
+      ),
+    );
+  }
+}
+
+class Number extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // Figma Flutter Generator Component2Widget - INSTANCE
+    return Container(
+      width: 150,
+      height: 36,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        border: Border.all(color: Color.fromRGBO(54, 182, 255, 1), width: 2.0),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+        color: Color.fromRGBO(120, 120, 120, 1),
+      ),
+      child: TextField(
+        keyboardType: TextInputType.number,
+        textAlign: TextAlign.center,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: 'Number',
+          hintStyle: TextStyle(color: Colors.grey),
+        ),
+      ),
+    );
+  }
+}
+
+class Unit extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // Figma Flutter Generator Component2Widget - INSTANCE
+    return Container(
+      width: 150,
+      height: 36,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        border: Border.all(color: Color.fromRGBO(54, 182, 255, 1), width: 2.0),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+        color: Color.fromRGBO(120, 120, 120, 1),
+      ),
+      child: TextField(
+        textAlign: TextAlign.center,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: 'Unit',
+          hintStyle: TextStyle(color: Colors.grey),
+        ),
+      ),
+    );
+  }
+}
+
+class SelectCategory extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // Figma Flutter Generator Component2Widget - INSTANCE
+    return RaisedButton(
+      splashColor: Color.fromRGBO(54, 182, 255, 1),
+      color: Color.fromRGBO(120, 120, 120, 1),
+      child: Text("select category",
+          style: TextStyle(fontSize: 15.0, color: Colors.white)),
+      onPressed: () {},
     );
   }
 }
