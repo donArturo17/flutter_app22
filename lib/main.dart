@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_app22/Habit%20Buttons.dart';
 
 void main() {
@@ -76,7 +77,6 @@ class _MyHomePageState extends State<MyHomePage> {
   bool everyyearbuttonselected = false;
   bool weekdaysbuttonselected = false;
 
-
   var buttoncolornormal = Color.fromRGBO(120, 120, 120, 1);
   var buttoncolorvice = Color.fromRGBO(120, 120, 120, 1);
   var buttoncoloreveryday = Color.fromRGBO(120, 120, 120, 1);
@@ -87,6 +87,30 @@ class _MyHomePageState extends State<MyHomePage> {
 
   var buttoncolornotactive = Color.fromRGBO(120, 120, 120, 1);
   var buttoncoloractive = Color.fromRGBO(54, 182, 255, 1);
+
+  bool _isMonday = false;
+  bool _isTuesday = false;
+  bool _isWednesday = false;
+  bool _isThursday = false;
+  bool _isFriday = false;
+  bool _isSaturday = false;
+  bool _isSunday = false;
+
+  bool viewVisible = false;
+
+  var selectedColor = Color.fromRGBO(54, 182, 255, 1);
+
+  void showCheckbox() {
+    setState(() {
+      viewVisible = true;
+    });
+  }
+
+  void hideCheckbox() {
+    setState(() {
+      viewVisible = false;
+    });
+  }
 
   void normalselected() {
     setState(() {
@@ -105,6 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
       buttoncolorvice = buttoncoloractive;
     });
   }
+
   void everydayselected() {
     setState(() {
       everydaybuttonselected = true;
@@ -117,8 +142,8 @@ class _MyHomePageState extends State<MyHomePage> {
       buttoncoloreverymonth = buttoncolornotactive;
       buttoncoloreveryyear = buttoncolornotactive;
       buttoncolorweekdays = buttoncolornotactive;
-
     });
+    hideCheckbox();
   }
 
   void everyweekselected() {
@@ -133,10 +158,9 @@ class _MyHomePageState extends State<MyHomePage> {
       buttoncoloreverymonth = buttoncolornotactive;
       buttoncoloreveryyear = buttoncolornotactive;
       buttoncolorweekdays = buttoncolornotactive;
-
     });
+    hideCheckbox();
   }
-
 
   void everymonthselected() {
     setState(() {
@@ -151,6 +175,7 @@ class _MyHomePageState extends State<MyHomePage> {
       buttoncoloreveryyear = buttoncolornotactive;
       buttoncolorweekdays = buttoncolornotactive;
     });
+    hideCheckbox();
   }
 
   void everyyearselected() {
@@ -166,6 +191,7 @@ class _MyHomePageState extends State<MyHomePage> {
       buttoncoloreveryyear = buttoncoloractive;
       buttoncolorweekdays = buttoncolornotactive;
     });
+    hideCheckbox();
   }
 
   void weeekdaysselected() {
@@ -181,8 +207,59 @@ class _MyHomePageState extends State<MyHomePage> {
       buttoncoloreveryyear = buttoncolornotactive;
       buttoncolorweekdays = buttoncoloractive;
     });
+    showCheckbox();
   }
 
+  double currentslide = 0;
+
+  void showselectedColor() {
+    setState(() {
+      if (currentslide == 0) {
+        selectedColor = Color.fromRGBO(54, 182, 255, 1);
+        ;
+      } else {}
+      if (currentslide == 10) {
+        selectedColor = Colors.yellow;
+        ;
+      } else {}
+      if (currentslide == 20) {
+        selectedColor = Colors.blueAccent;
+        ;
+      } else {}
+      if (currentslide == 30) {
+        selectedColor = Colors.cyanAccent;
+        ;
+      } else {}
+      if (currentslide == 40) {
+        selectedColor = Colors.greenAccent;
+        ;
+      } else {}
+      if (currentslide == 50) {
+        selectedColor = Colors.orange;
+        ;
+      } else {}
+      if (currentslide == 60) {
+        selectedColor = Colors.lightGreen;
+        ;
+      } else {}
+      if (currentslide == 70) {
+        selectedColor = Colors.purpleAccent;
+        ;
+      } else {}
+      if (currentslide == 80) {
+        selectedColor = Colors.deepOrange;
+        ;
+      } else {}
+      if (currentslide == 90) {
+        selectedColor = Colors.brown;
+        ;
+      } else {}
+      if (currentslide == 100) {
+        selectedColor = Colors.red;
+        ;
+      } else {}
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -210,7 +287,6 @@ class _MyHomePageState extends State<MyHomePage> {
             thickness: 3,
           ),
           Container(
-            color: Colors.green,
             height: 100,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -228,70 +304,237 @@ class _MyHomePageState extends State<MyHomePage> {
               style: TextStyle(fontSize: 18.0, color: Colors.white)),
           Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget> [
-              RaisedButton(
+              children: <Widget>[
+                RaisedButton(
+                  shape: StadiumBorder(),
                   splashColor: Color.fromRGBO(54, 182, 255, 1),
-                color: buttoncolornormal,
-                  child: Text("Normal", style: TextStyle(fontSize: 18.0, color: Colors.white)),
-          onPressed: normalselected,),
-              RaisedButton(
+                  color: buttoncolornormal,
+                  child: Text("Normal",
+                      style: TextStyle(fontSize: 18.0, color: Colors.white)),
+                  onPressed: normalselected,
+                ),
+                RaisedButton(
+                  shape: StadiumBorder(),
                   splashColor: Color.fromRGBO(54, 182, 255, 1),
-                color: buttoncolorvice,
-                  child: Text("Vice", style: TextStyle(fontSize: 18.0, color: Colors.white)),
-                  onPressed: viceselected,),
-
-
-            ]
-
-          ),
-        Divider(
+                  color: buttoncolorvice,
+                  child: Text("Vice",
+                      style: TextStyle(fontSize: 18.0, color: Colors.white)),
+                  onPressed: viceselected,
+                ),
+              ]),
+          Divider(
             color: Color.fromRGBO(54, 182, 255, 1),
-            thickness: 3,),
-          Text("Period",
-              style: TextStyle(fontSize: 18.0, color: Colors.white)),
+            thickness: 3,
+          ),
+          Text("Period", style: TextStyle(fontSize: 18.0, color: Colors.white)),
           Column(
-            children: <Widget> [
+            children: <Widget>[
               RaisedButton(
+                shape: StadiumBorder(),
                 splashColor: Color.fromRGBO(54, 182, 255, 1),
                 color: buttoncoloreveryday,
-                child: Text("Every Day", style: TextStyle(fontSize: 18.0, color: Colors.white)),
-                onPressed: everydayselected,),
+                child: Text("Every Day",
+                    style: TextStyle(fontSize: 18.0, color: Colors.white)),
+                onPressed: everydayselected,
+              ),
               RaisedButton(
+                shape: StadiumBorder(),
                 splashColor: Color.fromRGBO(54, 182, 255, 1),
                 color: buttoncoloreveryweek,
-                child: Text("Every Week", style: TextStyle(fontSize: 18.0, color: Colors.white)),
-                onPressed: everyweekselected,),
+                child: Text("Every Week",
+                    style: TextStyle(fontSize: 18.0, color: Colors.white)),
+                onPressed: everyweekselected,
+              ),
               RaisedButton(
+                shape: StadiumBorder(),
                 splashColor: Color.fromRGBO(54, 182, 255, 1),
                 color: buttoncoloreverymonth,
-                child: Text("Every Month", style: TextStyle(fontSize: 18.0, color: Colors.white)),
-                onPressed: everymonthselected,),
+                child: Text("Every Month",
+                    style: TextStyle(fontSize: 18.0, color: Colors.white)),
+                onPressed: everymonthselected,
+              ),
               RaisedButton(
+                shape: StadiumBorder(),
                 splashColor: Color.fromRGBO(54, 182, 255, 1),
                 color: buttoncoloreveryyear,
-                child: Text("Every Year", style: TextStyle(fontSize: 18.0, color: Colors.white)),
-                onPressed: everyyearselected,),
+                child: Text("Every Year",
+                    style: TextStyle(fontSize: 18.0, color: Colors.white)),
+                onPressed: everyyearselected,
+              ),
               RaisedButton(
+                shape: StadiumBorder(),
                 splashColor: Color.fromRGBO(54, 182, 255, 1),
                 color: buttoncolorweekdays,
-                child: Text("Select week days", style: TextStyle(fontSize: 18.0, color: Colors.white)),
-                onPressed: weeekdaysselected,),
-
+                child: Text("Select week days",
+                    style: TextStyle(fontSize: 18.0, color: Colors.white)),
+                onPressed: weeekdaysselected,
+              ),
             ],
+          ),
+          Visibility(
+            maintainSize: true,
+            maintainAnimation: true,
+            maintainState: true,
+            visible: viewVisible,
+            child: Container(
+              height: 75.0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      Checkbox(
+                        activeColor: buttoncoloractive,
+                        value: _isMonday,
+                        onChanged: (value) {
+                          setState(() {
+                            _isMonday = value;
+                          });
+                        },
+                      ),
+                      Text("Mo",
+                          style:
+                              TextStyle(fontSize: 15.0, color: Colors.white)),
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Checkbox(
+                        activeColor: buttoncoloractive,
+                        value: _isTuesday,
+                        onChanged: (value) {
+                          setState(() {
+                            _isTuesday = value;
+                          });
+                        },
+                      ),
+                      Text("Tu",
+                          style:
+                              TextStyle(fontSize: 15.0, color: Colors.white)),
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Checkbox(
+                        activeColor: buttoncoloractive,
+                        value: _isWednesday,
+                        onChanged: (value) {
+                          setState(() {
+                            _isWednesday = value;
+                          });
+                        },
+                      ),
+                      Text("We",
+                          style:
+                              TextStyle(fontSize: 15.0, color: Colors.white)),
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Checkbox(
+                        activeColor: buttoncoloractive,
+                        value: _isThursday,
+                        onChanged: (value) {
+                          setState(() {
+                            _isThursday = value;
+                          });
+                        },
+                      ),
+                      Text("Th",
+                          style:
+                              TextStyle(fontSize: 15.0, color: Colors.white)),
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Checkbox(
+                        activeColor: buttoncoloractive,
+                        value: _isFriday,
+                        onChanged: (value) {
+                          setState(() {
+                            _isFriday = value;
+                          });
+                        },
+                      ),
+                      Text("Fr",
+                          style:
+                              TextStyle(fontSize: 15.0, color: Colors.white)),
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Checkbox(
+                        activeColor: buttoncoloractive,
+                        value: _isSaturday,
+                        onChanged: (value) {
+                          setState(() {
+                            _isSaturday = value;
+                          });
+                        },
+                      ),
+                      Text("Sa",
+                          style:
+                              TextStyle(fontSize: 15.0, color: Colors.white)),
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Checkbox(
+                        activeColor: buttoncoloractive,
+                        value: _isSunday,
+                        onChanged: (value) {
+                          setState(() {
+                            _isSunday = value;
+                          });
+                        },
+                      ),
+                      Text("Su",
+                          style:
+                              TextStyle(fontSize: 15.0, color: Colors.white)),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ),
           Divider(
             color: Color.fromRGBO(54, 182, 255, 1),
-            thickness: 3,),
-          Text("Color",
-              style: TextStyle(fontSize: 18.0, color: Colors.white)),
-          Container(
-            height: 600,
-            color: Colors.red,
-
+            thickness: 3,
           ),
-
-
-
+          Container(
+            height: 200.0,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Text("Color",
+                    style: TextStyle(fontSize: 20.0, color: Colors.white)),
+                Text("Set the color style for your habit",
+                    style: TextStyle(fontSize: 14.0, color: Colors.grey)),
+                AnimatedContainer(
+                  width: 100.0,
+                  height: 50.0,
+                  color: selectedColor,
+                  duration: Duration(seconds: 0),
+                ),
+                Slider(
+                    value: currentslide,
+                    activeColor: selectedColor,
+                    min: 0,
+                    max: 100,
+                    divisions: 10,
+                    onChanged: (double value) {
+                      setState(() {
+                        currentslide = value;
+                      });
+                      showselectedColor();
+                    }),
+                Divider(
+                  color: Color.fromRGBO(54, 182, 255, 1),
+                  thickness: 3,
+                ),
+              ],
+            ),
+          ),
         ]),
       ),
       backgroundColor: Color.fromRGBO(53, 53, 53, 1),
@@ -319,8 +562,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-
 
 class Nameofhabit extends StatelessWidget {
   @override
@@ -403,6 +644,7 @@ class SelectCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     // Figma Flutter Generator Component2Widget - INSTANCE
     return RaisedButton(
+      shape: StadiumBorder(),
       splashColor: Color.fromRGBO(54, 182, 255, 1),
       color: Color.fromRGBO(120, 120, 120, 1),
       child: Text("select category",
