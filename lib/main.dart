@@ -261,6 +261,38 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  DateTime _date = DateTime.now();
+
+
+  Future<Null> _selectDate(BuildContext context) async {
+    DateTime _datePicker = await showDatePicker(
+        context: context,
+        initialDate: _date,
+        initialDatePickerMode: DatePickerMode.day,
+        firstDate: DateTime(1990),
+        lastDate: DateTime(2050),
+        builder: (BuildContext context, Widget child) {
+          return Theme(
+            data: ThemeData(
+
+              backgroundColor: Colors.grey,
+              primaryColor: Colors.green,
+              accentColor: Colors.blue,
+            ),
+            child: child,
+          );
+        });
+
+    if (_datePicker != null && _datePicker != _date) {
+      setState(() {
+        _date = _datePicker;
+        print(
+          _date.toString(),
+        );
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -502,7 +534,7 @@ class _MyHomePageState extends State<MyHomePage> {
             thickness: 3,
           ),
           Container(
-            height: 200.0,
+            height: 180.0,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
@@ -528,9 +560,32 @@ class _MyHomePageState extends State<MyHomePage> {
                       });
                       showselectedColor();
                     }),
-                Divider(
-                  color: Color.fromRGBO(54, 182, 255, 1),
-                  thickness: 3,
+              ],
+            ),
+          ),
+          Divider(
+            color: Color.fromRGBO(54, 182, 255, 1),
+            thickness: 3,
+          ),
+          Text("Start and End- Dates",
+              style: TextStyle(fontSize: 20.0, color: Colors.white)),
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Text(_date.toString(),
+                    style: TextStyle(fontSize: 15.0, color: Colors.white)),
+                RaisedButton(
+                  shape: StadiumBorder(),
+                  splashColor: Color.fromRGBO(54, 182, 255, 1),
+                  color: buttoncolorweekdays,
+                  child: Text("Select Date",
+                      style: TextStyle(fontSize: 18.0, color: Colors.white)),
+                  onPressed: () {
+                    setState(() {
+                      _selectDate(context);
+                    });
+                  },
                 ),
               ],
             ),
