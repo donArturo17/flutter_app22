@@ -76,6 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool everymonthbuttonselected = false;
   bool everyyearbuttonselected = false;
   bool weekdaysbuttonselected = false;
+  var periodstring = "nothing selected";
 
   var buttoncolornormal = Color.fromRGBO(120, 120, 120, 1);
   var buttoncolorvice = Color.fromRGBO(120, 120, 120, 1);
@@ -95,20 +96,28 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _isFriday = false;
   bool _isSaturday = false;
   bool _isSunday = false;
+  bool _enddatesetted = false;
 
-  bool viewVisible = false;
+  bool viewVisible1 = false;
+  bool viewVisible2 = false;
 
   var selectedColor = Color.fromRGBO(54, 182, 255, 1);
 
   void showCheckbox() {
     setState(() {
-      viewVisible = true;
+      viewVisible1 = true;
+    });
+  }
+
+  void showEnddate() {
+    setState(() {
+      viewVisible2 = true;
     });
   }
 
   void hideCheckbox() {
     setState(() {
-      viewVisible = false;
+      viewVisible1 = false;
     });
   }
 
@@ -142,6 +151,7 @@ class _MyHomePageState extends State<MyHomePage> {
       buttoncoloreverymonth = buttoncolornotactive;
       buttoncoloreveryyear = buttoncolornotactive;
       buttoncolorweekdays = buttoncolornotactive;
+      periodstring = "Every Day";
     });
     hideCheckbox();
   }
@@ -158,6 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
       buttoncoloreverymonth = buttoncolornotactive;
       buttoncoloreveryyear = buttoncolornotactive;
       buttoncolorweekdays = buttoncolornotactive;
+      periodstring = "Every Week";
     });
     hideCheckbox();
   }
@@ -174,6 +185,7 @@ class _MyHomePageState extends State<MyHomePage> {
       buttoncoloreverymonth = buttoncoloractive;
       buttoncoloreveryyear = buttoncolornotactive;
       buttoncolorweekdays = buttoncolornotactive;
+      periodstring = "Every Month";
     });
     hideCheckbox();
   }
@@ -190,6 +202,8 @@ class _MyHomePageState extends State<MyHomePage> {
       buttoncoloreverymonth = buttoncolornotactive;
       buttoncoloreveryyear = buttoncoloractive;
       buttoncolorweekdays = buttoncolornotactive;
+      periodstring = "Every Year";
+
     });
     hideCheckbox();
   }
@@ -206,8 +220,10 @@ class _MyHomePageState extends State<MyHomePage> {
       buttoncoloreverymonth = buttoncolornotactive;
       buttoncoloreveryyear = buttoncolornotactive;
       buttoncolorweekdays = buttoncoloractive;
+      periodstring = "Certain Weekdays";
     });
     showCheckbox();
+
   }
 
   double currentslide = 0;
@@ -261,13 +277,13 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  DateTime _date = DateTime.now();
+  DateTime _startdate = DateTime.now();
 
 
-  Future<Null> _selectDate(BuildContext context) async {
-    DateTime _datePicker = await showDatePicker(
+  Future<Null> _selectStartDate(BuildContext context) async {
+    DateTime _dateStartPicker = await showDatePicker(
         context: context,
-        initialDate: _date,
+        initialDate: _startdate,
         initialDatePickerMode: DatePickerMode.day,
         firstDate: DateTime(1990),
         lastDate: DateTime(2050),
@@ -283,15 +299,50 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         });
 
-    if (_datePicker != null && _datePicker != _date) {
+    if (_dateStartPicker != null && _dateStartPicker != _startdate) {
       setState(() {
-        _date = _datePicker;
+        _startdate = _dateStartPicker;
         print(
-          _date.toString(),
+          _startdate.toString(),
         );
       });
     }
   }
+
+
+  DateTime _enddate = DateTime.now();
+
+
+  Future<Null> _selectEndDate(BuildContext context) async {
+    DateTime _dateEndPicker = await showDatePicker(
+        context: context,
+        initialDate: _enddate,
+        initialDatePickerMode: DatePickerMode.day,
+        firstDate: DateTime(1990),
+        lastDate: DateTime(2050),
+        builder: (BuildContext context, Widget child) {
+          return Theme(
+            data: ThemeData(
+
+              backgroundColor: Colors.grey,
+              primaryColor: Colors.green,
+              accentColor: Colors.blue,
+            ),
+            child: child,
+          );
+        });
+
+    if (_dateEndPicker != null && _dateEndPicker != _enddate) {
+      setState(() {
+        _enddate = _dateEndPicker;
+        print(
+          _enddate.toString(),
+        );
+      });
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -407,7 +458,7 @@ class _MyHomePageState extends State<MyHomePage> {
             maintainSize: true,
             maintainAnimation: true,
             maintainState: true,
-            visible: viewVisible,
+            visible: viewVisible1,
             child: Container(
               height: 75.0,
               child: Row(
@@ -539,14 +590,58 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Text("Color",
-                    style: TextStyle(fontSize: 20.0, color: Colors.white)),
+                    style: TextStyle(fontSize: 20.0, color: selectedColor),),
                 Text("Set the color style for your habit",
-                    style: TextStyle(fontSize: 14.0, color: Colors.grey)),
+                    style: TextStyle(fontSize: 16.0, color: Colors.white)),
                 AnimatedContainer(
-                  width: 100.0,
-                  height: 50.0,
-                  color: selectedColor,
+                  width: 400.0,
+                  height: 70.0,
                   duration: Duration(seconds: 0),
+                  decoration: BoxDecoration(
+                      color: selectedColor,
+                      borderRadius: BorderRadius.all(Radius.circular(10))
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text("Hier muss der Text rein",
+                                    style: TextStyle(fontSize: 24.0, color: Colors.black)),
+                                Text(periodstring.toString(),
+                                    style: TextStyle(fontSize: 14.0, color: Colors.black54)),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text("Score",
+                                    style: TextStyle(fontSize: 18.0, color: Colors.black)),
+                                Text("84.5%",
+                                    style: TextStyle(fontSize: 24.0, color: Colors.black)),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.centerRight,
+                            child: Icon(
+                              Icons.check_circle_outline,
+                              color: Colors.black,
+                              size: 40,
+                            ),
+                          ),
+                        ],
+                    ),
+                  ),
+
                 ),
                 Slider(
                     value: currentslide,
@@ -573,23 +668,71 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Text(_date.toString(),
-                    style: TextStyle(fontSize: 15.0, color: Colors.white)),
-                RaisedButton(
-                  shape: StadiumBorder(),
-                  splashColor: Color.fromRGBO(54, 182, 255, 1),
-                  color: buttoncolorweekdays,
-                  child: Text("Select Date",
-                      style: TextStyle(fontSize: 18.0, color: Colors.white)),
-                  onPressed: () {
+                Text("Set End Date",style: TextStyle(fontSize:18.0, color: Colors.white,
+                )),
+                Checkbox(
+                  activeColor: buttoncoloractive,
+                  value: viewVisible2,
+                  onChanged: (value) {
                     setState(() {
-                      _selectDate(context);
+                      viewVisible2 = value;
                     });
                   },
                 ),
               ],
             ),
           ),
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Text(_startdate.toString(),
+                    style: TextStyle(fontSize: 15.0, color: Colors.white)),
+                RaisedButton(
+                  shape: StadiumBorder(),
+                  splashColor: Color.fromRGBO(54, 182, 255, 1),
+                  color: buttoncolorweekdays,
+                  child: Text("Select Start Date",
+                      style: TextStyle(fontSize: 18.0, color: Colors.white)),
+                  onPressed: () {
+                    setState(() {
+                      _selectStartDate(context);
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
+        Visibility(
+            maintainSize: true,
+            maintainAnimation: true,
+            maintainState: true,
+            visible: viewVisible2,
+          child:Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Text(_enddate.toString(),
+                    style: TextStyle(fontSize: 15.0, color: Colors.white)),
+                RaisedButton(
+                  shape: StadiumBorder(),
+                  splashColor: Color.fromRGBO(54, 182, 255, 1),
+                  color: buttoncolorweekdays,
+                  child: Text("Select End Date",
+                      style: TextStyle(fontSize: 18.0, color: Colors.white)),
+                  onPressed: () {
+                    setState(() {
+                      _selectEndDate(context);
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),),
+        Divider(
+            color: Color.fromRGBO(54, 182, 255, 1),
+            thickness: 3,),
+
         ]),
       ),
       backgroundColor: Color.fromRGBO(53, 53, 53, 1),
@@ -618,6 +761,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+
+
 class Nameofhabit extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -631,12 +776,17 @@ class Nameofhabit extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(10)),
         color: Color.fromRGBO(120, 120, 120, 1),
       ),
-      child: TextField(
-        textAlign: TextAlign.center,
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          hintText: 'Name your habit here',
-          hintStyle: TextStyle(color: Colors.grey),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+          textAlign: TextAlign.center,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: 'Name your habit here',
+            hintStyle: TextStyle(fontSize: 16.0, color: Colors.black),
+
+
+          ),
         ),
       ),
     );
