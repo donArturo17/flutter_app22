@@ -357,7 +357,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(children: <Widget>[
           Container(
               width: 500,
-              height: 180,
+              height: 100,
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
@@ -515,7 +515,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       Text("Mo",
                           style:
-                              TextStyle(fontSize: 15.0, color: Colors.white)),
+                          TextStyle(fontSize: 15.0, color: Colors.white)),
                     ],
                   ),
                   Column(
@@ -531,7 +531,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       Text("Tu",
                           style:
-                              TextStyle(fontSize: 15.0, color: Colors.white)),
+                          TextStyle(fontSize: 15.0, color: Colors.white)),
                     ],
                   ),
                   Column(
@@ -547,7 +547,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       Text("We",
                           style:
-                              TextStyle(fontSize: 15.0, color: Colors.white)),
+                          TextStyle(fontSize: 15.0, color: Colors.white)),
                     ],
                   ),
                   Column(
@@ -563,7 +563,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       Text("Th",
                           style:
-                              TextStyle(fontSize: 15.0, color: Colors.white)),
+                          TextStyle(fontSize: 15.0, color: Colors.white)),
                     ],
                   ),
                   Column(
@@ -579,7 +579,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       Text("Fr",
                           style:
-                              TextStyle(fontSize: 15.0, color: Colors.white)),
+                          TextStyle(fontSize: 15.0, color: Colors.white)),
                     ],
                   ),
                   Column(
@@ -595,7 +595,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       Text("Sa",
                           style:
-                              TextStyle(fontSize: 15.0, color: Colors.white)),
+                          TextStyle(fontSize: 15.0, color: Colors.white)),
                     ],
                   ),
                   Column(
@@ -611,7 +611,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       Text("Su",
                           style:
-                              TextStyle(fontSize: 15.0, color: Colors.white)),
+                          TextStyle(fontSize: 15.0, color: Colors.white)),
                     ],
                   ),
                 ],
@@ -628,7 +628,7 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Text("Color",
-                    style: TextStyle(fontSize: 20.0, color: selectedColor),),
+                  style: TextStyle(fontSize: 20.0, color: selectedColor),),
                 Text("Set the color style for your habit",
                     style: TextStyle(fontSize: 16.0, color: Colors.white)),
                 AnimatedContainer(
@@ -643,40 +643,40 @@ class _MyHomePageState extends State<MyHomePage> {
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text("Hier muss der Text rein",
-                                    style: TextStyle(fontSize: 24.0, color: Colors.black)),
-                                Text(periodstring.toString(),
-                                    style: TextStyle(fontSize: 14.0, color: Colors.black54)),
-                              ],
-                            ),
+                      children: <Widget>[
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text("Hier muss der Text rein",
+                                  style: TextStyle(fontSize: 24.0, color: Colors.black)),
+                              Text(periodstring.toString(),
+                                  style: TextStyle(fontSize: 14.0, color: Colors.black54)),
+                            ],
                           ),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text("Score",
-                                    style: TextStyle(fontSize: 18.0, color: Colors.black)),
-                                Text("84.5%",
-                                    style: TextStyle(fontSize: 24.0, color: Colors.black)),
-                              ],
-                            ),
+                        ),
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text("Score",
+                                  style: TextStyle(fontSize: 18.0, color: Colors.black)),
+                              Text("84.5%",
+                                  style: TextStyle(fontSize: 24.0, color: Colors.black)),
+                            ],
                           ),
-                          Container(
-                            alignment: Alignment.centerRight,
-                            child: Icon(
-                              Icons.check_circle_outline,
-                              color: Colors.black,
-                              size: 40,
-                            ),
+                        ),
+                        Container(
+                          alignment: Alignment.centerRight,
+                          child: Icon(
+                            Icons.check_circle_outline,
+                            color: Colors.black,
+                            size: 40,
                           ),
-                        ],
+                        ),
+                      ],
                     ),
                   ),
 
@@ -694,131 +694,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       showselectedColor();
                     }),
               ],
-            ),
-          ),
-          Divider(
-            color: Color.fromRGBO(54, 182, 255, 1),
-            thickness: 3,
-          ),
-          Container(
-            height: 100,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text("Set Goal Time",
-                    style: TextStyle(fontSize: 20.0, color: Colors.white)),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      width: 100,
-                      height: 50,
-                      child: TextField(
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white),
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: buttoncoloractive, width: 3.0),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: buttoncoloractive, width: 3.0),
-                            ),
-                            hintText: "00",
-                            labelText: "hours",
-                            focusColor: Colors.deepOrange,
-                            hintStyle: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
-                            labelStyle: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
-                            border: OutlineInputBorder(
-                            )
-                        ),
-                      ),
-                    ),
-              Container(
-                width: 100,
-                height: 50,
-                child: TextField(
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white),
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: buttoncoloractive, width: 3.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: buttoncoloractive, width: 3.0),
-                      ),
-                      hintText: "00",
-                      labelText: "min",
-                      focusColor: Colors.deepOrange,
-                      hintStyle: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                      ),
-                      labelStyle: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                      ),
-                      border: OutlineInputBorder(
-                      )
-                  ),
-                ),
-              ),
-                    Container(
-                      width: 100,
-                      height: 50,
-                      child: TextField(
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white),
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: buttoncoloractive, width: 3.0),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: buttoncoloractive, width: 3.0),
-                            ),
-                            hintText: "00",
-                            labelText: "sec",
-                            suffixStyle:TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                            ) ,
-                            focusColor: Colors.deepOrange,
-                            hintStyle: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
-                            labelStyle: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
-                            border: OutlineInputBorder(
-                            )
-                        ),
-                      ),
-                    ),
-                  ],
-
-
-                ),
-
-              ]
             ),
           ),
           Divider(
@@ -866,33 +741,33 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
-        Visibility(
+          Visibility(
             maintainSize: true,
             maintainAnimation: true,
             maintainState: true,
             visible: viewVisible2,
-          child:Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Text(_enddate.toString(),
-                    style: TextStyle(fontSize: 15.0, color: Colors.white)),
-                RaisedButton(
-                  shape: StadiumBorder(),
-                  splashColor: Color.fromRGBO(54, 182, 255, 1),
-                  color: buttoncolorweekdays,
-                  child: Text("Select End Date",
-                      style: TextStyle(fontSize: 18.0, color: Colors.white)),
-                  onPressed: () {
-                    setState(() {
-                      _selectEndDate(context);
-                    });
-                  },
-                ),
-              ],
-            ),
-          ),),
-        Divider(
+            child:Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Text(_enddate.toString(),
+                      style: TextStyle(fontSize: 15.0, color: Colors.white)),
+                  RaisedButton(
+                    shape: StadiumBorder(),
+                    splashColor: Color.fromRGBO(54, 182, 255, 1),
+                    color: buttoncolorweekdays,
+                    child: Text("Select End Date",
+                        style: TextStyle(fontSize: 18.0, color: Colors.white)),
+                    onPressed: () {
+                      setState(() {
+                        _selectEndDate(context);
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),),
+          Divider(
             color: Color.fromRGBO(54, 182, 255, 1),
             thickness: 3,),
           RaisedButton(
@@ -950,9 +825,7 @@ class Nameofhabit extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          style: TextStyle(fontSize: 18.0, color: Colors.white),
           textAlign: TextAlign.center,
-          maxLength: 40,
           decoration: InputDecoration(
             border: InputBorder.none,
             hintText: 'Name your habit here',
