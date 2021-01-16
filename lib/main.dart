@@ -732,6 +732,14 @@ class _MyHomePageState extends State<MyHomePage> {
         Divider(
             color: Color.fromRGBO(54, 182, 255, 1),
             thickness: 3,),
+          RaisedButton(
+            shape: StadiumBorder(),
+            splashColor: Color.fromRGBO(54, 182, 255, 1),
+            color: buttoncoloractive,
+            child: Text("Save",
+                style: TextStyle(fontSize: 18.0, color: Colors.white)),
+            onPressed: everyyearselected,
+          ),
 
         ]),
       ),
