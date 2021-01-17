@@ -223,6 +223,7 @@ class _MyHomePageState extends State<MyHomePage> {
       periodstring = "Certain Weekdays";
     });
     showCheckbox();
+
   }
 
   double currentslide = 0;
@@ -278,6 +279,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   DateTime _startdate = DateTime.now();
 
+
   Future<Null> _selectStartDate(BuildContext context) async {
     DateTime _dateStartPicker = await showDatePicker(
         context: context,
@@ -307,7 +309,9 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+
   DateTime _enddate = DateTime.now();
+
 
   Future<Null> _selectEndDate(BuildContext context) async {
     DateTime _dateEndPicker = await showDatePicker(
@@ -319,6 +323,7 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (BuildContext context, Widget child) {
           return Theme(
             data: ThemeData(
+
               backgroundColor: Colors.grey,
               primaryColor: Colors.green,
               accentColor: Colors.blue,
@@ -352,51 +357,51 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(children: <Widget>[
           Container(
               width: 500,
-              height: 100,
+              height: 180,
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Text('Name of your Yes/No Habit?',
+                    Text('Name of your Timer Habit?',
                         style: TextStyle(fontSize: 20.0, color: Colors.white)),
-            Container(
-              width: 400,
-              height: 80,
-              child: TextField(
-                maxLength: 40,
-                style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white),
-                keyboardType: TextInputType.name,
-                decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: buttoncoloractive, width: 3.0),
+                    Container(
+                      width: 400,
+                      height: 80,
+                      child: TextField(
+                        maxLength: 40,
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white),
+                        keyboardType: TextInputType.name,
+                        decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: buttoncoloractive, width: 3.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: buttoncoloractive, width: 3.0),
+                            ),
+                            hintText: "e.g. Take my pills",
+                            labelText: "Name of your habit",
+                            suffixStyle:TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                            ) ,
+                            focusColor: Colors.deepOrange,
+                            hintStyle: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                            labelStyle: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                            border: OutlineInputBorder(borderSide: BorderSide(
+                                color: Colors.blue, width: 3.0),
+                            )
+                        ),
+                      ),
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: buttoncoloractive, width: 3.0),
-                    ),
-                    hintText: "e.g. Take my pills",
-                    labelText: "Name of your habit",
-                    suffixStyle:TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                    ) ,
-                    focusColor: Colors.deepOrange,
-                    hintStyle: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                    ),
-                    labelStyle: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                    ),
-                    border: OutlineInputBorder(borderSide: BorderSide(
-                        color: Colors.blue, width: 3.0),
-                    )
-                ),
-              ),
-            ),
                   ])),
           Divider(
             color: Color.fromRGBO(54, 182, 255, 1),
@@ -646,7 +651,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             children: [
                               Text("Hier muss der Text rein",
                                   style: TextStyle(fontSize: 24.0, color: Colors.black)),
-                              Text(periodstring.toString(),
+                              Text("22:33:00  " + periodstring.toString(),
                                   style: TextStyle(fontSize: 14.0, color: Colors.black54)),
                             ],
                           ),
@@ -689,6 +694,131 @@ class _MyHomePageState extends State<MyHomePage> {
                       showselectedColor();
                     }),
               ],
+            ),
+          ),
+          Divider(
+            color: Color.fromRGBO(54, 182, 255, 1),
+            thickness: 3,
+          ),
+          Container(
+            height: 100,
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text("Set Goal Time",
+                      style: TextStyle(fontSize: 20.0, color: Colors.white)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 50,
+                        child: TextField(
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white),
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: buttoncoloractive, width: 3.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: buttoncoloractive, width: 3.0),
+                              ),
+                              hintText: "00",
+                              labelText: "hours",
+                              focusColor: Colors.deepOrange,
+                              hintStyle: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                              ),
+                              labelStyle: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                              ),
+                              border: OutlineInputBorder(
+                              )
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 100,
+                        height: 50,
+                        child: TextField(
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white),
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: buttoncoloractive, width: 3.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: buttoncoloractive, width: 3.0),
+                              ),
+                              hintText: "00",
+                              labelText: "min",
+                              focusColor: Colors.deepOrange,
+                              hintStyle: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                              ),
+                              labelStyle: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                              ),
+                              border: OutlineInputBorder(
+                              )
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 100,
+                        height: 50,
+                        child: TextField(
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white),
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: buttoncoloractive, width: 3.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: buttoncoloractive, width: 3.0),
+                              ),
+                              hintText: "00",
+                              labelText: "sec",
+                              suffixStyle:TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                              ) ,
+                              focusColor: Colors.deepOrange,
+                              hintStyle: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                              ),
+                              labelStyle: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                              ),
+                              border: OutlineInputBorder(
+                              )
+                          ),
+                        ),
+                      ),
+                    ],
+
+
+                  ),
+
+                ]
             ),
           ),
           Divider(
@@ -821,7 +951,9 @@ class Nameofhabit extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
+          style: TextStyle(fontSize: 18.0, color: Colors.white),
           textAlign: TextAlign.center,
+          maxLength: 40,
           decoration: InputDecoration(
             border: InputBorder.none,
             hintText: 'Name your habit here',

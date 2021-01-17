@@ -1,7 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter_app22/Habit%20Buttons.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
+import 'package:numberpicker/numberpicker.dart';
+import 'package:table_calendar/table_calendar.dart';
+
+import 'package:flutter_picker/flutter_picker.dart';
+import 'package:percent_indicator/percent_indicator.dart';
+import 'Category_list.dart';
 
 void main() {
   runApp(MyApp());
@@ -51,7 +59,7 @@ class MyHomePage extends StatefulWidget {
 
 double Textgr = 2.1;
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   int _counter = 0;
 
   void _incrementCounter() {
@@ -66,281 +74,403 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   int _currentIndex = 0;
-  DateTime now = new DateTime.now();
+
   var _periods = ['day', 'week', 'month'];
   var _periodItemSelected = 'day';
-  bool normalbuttonselected = false;
-  bool vicebuttonselected = false;
-  bool everydaybuttonselected = false;
-  bool everyweekbuttonselected = false;
-  bool everymonthbuttonselected = false;
-  bool everyyearbuttonselected = false;
-  bool weekdaysbuttonselected = false;
-  var periodstring = "nothing selected";
+  DateTime now = DateTime.now();
+  TabController tb;
+  int hour = 0;
+  int min = 0;
+  int sec = 0;
+  int timeForSafe = 0;
+  String timetodisplay = "";
+  CalendarController _controller;
+  final dur = const Duration(seconds: 1);
 
-  var buttoncolornormal = Color.fromRGBO(120, 120, 120, 1);
-  var buttoncolorvice = Color.fromRGBO(120, 120, 120, 1);
-  var buttoncoloreveryday = Color.fromRGBO(120, 120, 120, 1);
-  var buttoncoloreveryweek = Color.fromRGBO(120, 120, 120, 1);
-  var buttoncoloreverymonth = Color.fromRGBO(120, 120, 120, 1);
-  var buttoncoloreveryyear = Color.fromRGBO(120, 120, 120, 1);
-  var buttoncolorweekdays = Color.fromRGBO(120, 120, 120, 1);
+  bool startispressed = true;
+  bool stopispressed = true;
+  bool resetispressed = true;
+  String stoptimetodisplay = "00:00:00";
+  var swatch = Stopwatch();
+  String startbuttontext = "Start";
 
-  var buttoncolornotactive = Color.fromRGBO(120, 120, 120, 1);
-  var buttoncoloractive = Color.fromRGBO(54, 182, 255, 1);
-
-  bool _isMonday = false;
-  bool _isTuesday = false;
-  bool _isWednesday = false;
-  bool _isThursday = false;
-  bool _isFriday = false;
-  bool _isSaturday = false;
-  bool _isSunday = false;
-  bool _enddatesetted = false;
-
-  bool viewVisible1 = false;
-  bool viewVisible2 = false;
-
-  var selectedColor = Color.fromRGBO(54, 182, 255, 1);
-
-  void showCheckbox() {
-    setState(() {
-      viewVisible1 = true;
-    });
+  @override
+  void initState() {
+    tb = TabController(
+      length: 3,
+      vsync: this,
+    );
+    super.initState();
+    _controller = CalendarController();
   }
 
-  void showEnddate() {
-    setState(() {
-      viewVisible2 = true;
-    });
-  }
+  double habitprocentage = 0.789;
+  double thisweekprocentage = 0.489;
+  double thismonthprocentage = 0.888;
+  double thisyearprocentage = 0.184;
 
-  void hideCheckbox() {
-    setState(() {
-      viewVisible1 = false;
-    });
-  }
-
-  void normalselected() {
-    setState(() {
-      normalbuttonselected = true;
-      vicebuttonselected = false;
-      buttoncolornormal = buttoncoloractive;
-      buttoncolorvice = buttoncolornotactive;
-    });
-  }
-
-  void viceselected() {
-    setState(() {
-      normalbuttonselected = false;
-      vicebuttonselected = true;
-      buttoncolornormal = buttoncolornotactive;
-      buttoncolorvice = buttoncoloractive;
-    });
-  }
-
-  void everydayselected() {
-    setState(() {
-      everydaybuttonselected = true;
-      everyweekbuttonselected = false;
-      everymonthbuttonselected = false;
-      everyyearbuttonselected = false;
-      weekdaysbuttonselected = false;
-      buttoncoloreveryday = buttoncoloractive;
-      buttoncoloreveryweek = buttoncolornotactive;
-      buttoncoloreverymonth = buttoncolornotactive;
-      buttoncoloreveryyear = buttoncolornotactive;
-      buttoncolorweekdays = buttoncolornotactive;
-      periodstring = "Every Day";
-    });
-    hideCheckbox();
-  }
-
-  void everyweekselected() {
-    setState(() {
-      everydaybuttonselected = false;
-      everyweekbuttonselected = true;
-      everymonthbuttonselected = false;
-      everyyearbuttonselected = false;
-      weekdaysbuttonselected = false;
-      buttoncoloreveryday = buttoncolornotactive;
-      buttoncoloreveryweek = buttoncoloractive;
-      buttoncoloreverymonth = buttoncolornotactive;
-      buttoncoloreveryyear = buttoncolornotactive;
-      buttoncolorweekdays = buttoncolornotactive;
-      periodstring = "Every Week";
-    });
-    hideCheckbox();
-  }
-
-  void everymonthselected() {
-    setState(() {
-      everydaybuttonselected = false;
-      everyweekbuttonselected = false;
-      everymonthbuttonselected = true;
-      everyyearbuttonselected = false;
-      weekdaysbuttonselected = false;
-      buttoncoloreveryday = buttoncolornotactive;
-      buttoncoloreveryweek = buttoncolornotactive;
-      buttoncoloreverymonth = buttoncoloractive;
-      buttoncoloreveryyear = buttoncolornotactive;
-      buttoncolorweekdays = buttoncolornotactive;
-      periodstring = "Every Month";
-    });
-    hideCheckbox();
-  }
-
-  void everyyearselected() {
-    setState(() {
-      everydaybuttonselected = false;
-      everyweekbuttonselected = false;
-      everymonthbuttonselected = false;
-      everyyearbuttonselected = true;
-      weekdaysbuttonselected = false;
-      buttoncoloreveryday = buttoncolornotactive;
-      buttoncoloreveryweek = buttoncolornotactive;
-      buttoncoloreverymonth = buttoncolornotactive;
-      buttoncoloreveryyear = buttoncoloractive;
-      buttoncolorweekdays = buttoncolornotactive;
-      periodstring = "Every Year";
-
-    });
-    hideCheckbox();
-  }
-
-  void weeekdaysselected() {
-    setState(() {
-      everydaybuttonselected = false;
-      everyweekbuttonselected = false;
-      everymonthbuttonselected = false;
-      everyyearbuttonselected = false;
-      weekdaysbuttonselected = true;
-      buttoncoloreveryday = buttoncolornotactive;
-      buttoncoloreveryweek = buttoncolornotactive;
-      buttoncoloreverymonth = buttoncolornotactive;
-      buttoncoloreveryyear = buttoncolornotactive;
-      buttoncolorweekdays = buttoncoloractive;
-      periodstring = "Certain Weekdays";
-    });
-    showCheckbox();
-
-  }
-
-  double currentslide = 0;
-
-  void showselectedColor() {
-    setState(() {
-      if (currentslide == 0) {
-        selectedColor = Color.fromRGBO(54, 182, 255, 1);
-        ;
-      } else {}
-      if (currentslide == 10) {
-        selectedColor = Colors.yellow;
-        ;
-      } else {}
-      if (currentslide == 20) {
-        selectedColor = Colors.blueAccent;
-        ;
-      } else {}
-      if (currentslide == 30) {
-        selectedColor = Colors.cyanAccent;
-        ;
-      } else {}
-      if (currentslide == 40) {
-        selectedColor = Colors.greenAccent;
-        ;
-      } else {}
-      if (currentslide == 50) {
-        selectedColor = Colors.orange;
-        ;
-      } else {}
-      if (currentslide == 60) {
-        selectedColor = Colors.lightGreen;
-        ;
-      } else {}
-      if (currentslide == 70) {
-        selectedColor = Colors.purpleAccent;
-        ;
-      } else {}
-      if (currentslide == 80) {
-        selectedColor = Colors.deepOrange;
-        ;
-      } else {}
-      if (currentslide == 90) {
-        selectedColor = Colors.brown;
-        ;
-      } else {}
-      if (currentslide == 100) {
-        selectedColor = Colors.red;
-        ;
-      } else {}
-    });
-  }
-
-  DateTime _startdate = DateTime.now();
-
-
-  Future<Null> _selectStartDate(BuildContext context) async {
-    DateTime _dateStartPicker = await showDatePicker(
-        context: context,
-        initialDate: _startdate,
-        initialDatePickerMode: DatePickerMode.day,
-        firstDate: DateTime(1990),
-        lastDate: DateTime(2050),
-        builder: (BuildContext context, Widget child) {
-          return Theme(
-            data: ThemeData(
-
+  Widget statistics_Habit() {
+    return SingleChildScrollView(
+      child: Column(children: [
+        Container(
+            height: 40.0,
+            alignment: Alignment.center,
+            child: Text("Total Score",
+                style: TextStyle(
+                  fontSize: 25.0,
+                  color: Colors.white,
+                ))),
+        Container(
+            height: 300,
+            width: 300,
+            child: CircularPercentIndicator(
+              progressColor: Colors.blueAccent,
+              percent: habitprocentage,
+              animation: true,
+              radius: 250.0,
+              lineWidth: 15.0,
+              circularStrokeCap: CircularStrokeCap.round,
               backgroundColor: Colors.grey,
-              primaryColor: Colors.green,
-              accentColor: Colors.blue,
+              center: Text((habitprocentage * 100).toString() + "%",
+                  style: TextStyle(fontSize: 30.0, color: Colors.white)),
+            )),
+        Container(
+            height: 50.0,
+            width: 400,
+            alignment: Alignment.center,
+            child: Text("Statistics",
+                style: TextStyle(fontSize: 30.0, color: Colors.white))),
+        Divider(
+          thickness: 2.0,
+          color: Colors.blue,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Expanded(
+              child: Container(
+                height: 40.0,
+                alignment: Alignment.center,
+                child: Text("Current Streak",
+                    style: TextStyle(fontSize: 20.0, color: Colors.white)),
+              ),
             ),
-            child: child,
-          );
-        });
+            Expanded(
+              child: Container(
+                height: 40.0,
+                alignment: Alignment.center,
+                child: Text(
+                  "Best Streak",
+                  style: TextStyle(fontSize: 20.0, color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Expanded(
+              child: Container(
+                  height: 35.0,
+                  alignment: Alignment.center,
+                  child: Text("4 Days",
+                      style: TextStyle(fontSize: 20.0, color: Colors.white))),
+            ),
+            Expanded(
+              child: Container(
+                height: 35.0,
+                alignment: Alignment.center,
+                child: Text(
+                  "15 Days",
+                  style: TextStyle(fontSize: 20.0, color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
+        Container(
+          height: 40.0,
+        ),
+        Container(
+            height: 200.0,
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: Container(
+                                height: 35.0,
+                                width: 100.0,
+                                alignment: Alignment.center,
+                                child: Text("This week:",
+                                    style: TextStyle(
+                                        fontSize: 20.0, color: Colors.white))),
+                          ),
+                          Expanded(
+                            child: Container(
+                                height: 35.0,
+                                width: 100.0,
+                                alignment: Alignment.center,
+                                child: Text(
+                                    (thisweekprocentage * 100).toString() +
+                                        " %",
+                                    style: TextStyle(
+                                        fontSize: 30.0, color: Colors.white))),
+                          ),
+                          Expanded(
+                            child: Container(
+                              height: 35.0,
+                              alignment: Alignment.center,
+                              child: Text(
+                                "15 Days",
+                                style: TextStyle(
+                                    fontSize: 20.0, color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          LinearPercentIndicator(
+                            progressColor: Colors.blueAccent,
+                            percent: thisweekprocentage,
+                            animation: true,
+                            width: 350,
+                            linearStrokeCap: LinearStrokeCap.round,
+                            backgroundColor: Colors.red,
+                            center: Text(
+                                (habitprocentage * 100).toString() + "%",
+                                style: TextStyle(
+                                    fontSize: 30.0, color: Colors.white)),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: Container(
+                            height: 35.0,
+                            width: 100.0,
+                            alignment: Alignment.center,
+                            child: Text("This month:",
+                                style: TextStyle(
+                                    fontSize: 20.0, color: Colors.white))),
+                      ),
+                      Expanded(
+                        child: Container(
+                            height: 35.0,
+                            width: 100.0,
+                            alignment: Alignment.center,
+                            child: Text(
+                                (thismonthprocentage * 100).toString() + " %",
+                                style: TextStyle(
+                                    fontSize: 30.0, color: Colors.white))),
+                      ),
+                      Expanded(
+                        child: Container(
+                          height: 35.0,
+                          alignment: Alignment.center,
+                          child: Text(
+                            "7 Days",
+                            style:
+                            TextStyle(fontSize: 20.0, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      LinearPercentIndicator(
+                        progressColor: Colors.blueAccent,
+                        percent: thismonthprocentage,
+                        animation: true,
+                        width: 350,
+                        linearStrokeCap: LinearStrokeCap.round,
+                        backgroundColor: Colors.red,
+                        center: Text((habitprocentage * 100).toString() + "%",
+                            style:
+                            TextStyle(fontSize: 30.0, color: Colors.white)),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: Container(
+                            height: 35.0,
+                            width: 100.0,
+                            alignment: Alignment.center,
+                            child: Text("This year:",
+                                style: TextStyle(
+                                    fontSize: 20.0, color: Colors.white))),
+                      ),
+                      Expanded(
+                        child: Container(
+                            height: 35.0,
+                            width: 100.0,
+                            alignment: Alignment.center,
+                            child: Text(
+                                (thisyearprocentage * 100).toString() + " %",
+                                style: TextStyle(
+                                    fontSize: 30.0, color: Colors.white))),
+                      ),
+                      Expanded(
+                        child: Container(
+                          height: 35.0,
+                          alignment: Alignment.center,
+                          child: Text(
+                            "19 Days",
+                            style:
+                            TextStyle(fontSize: 20.0, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      LinearPercentIndicator(
+                        progressColor: Colors.blueAccent,
+                        percent: thisyearprocentage,
+                        animation: true,
+                        width: 350,
+                        linearStrokeCap: LinearStrokeCap.round,
+                        backgroundColor: Colors.red,
+                        center: Text((habitprocentage * 100).toString() + "%",
+                            style:
+                            TextStyle(fontSize: 30.0, color: Colors.white)),
+                      ),
+                    ],
+                  ),
+                ])),
+      ]),
+    );
+  }
 
-    if (_dateStartPicker != null && _dateStartPicker != _startdate) {
-      setState(() {
-        _startdate = _dateStartPicker;
-        print(
-          _startdate.toString(),
-        );
-      });
-    }
+  Widget calendar_Habit() {
+    return SingleChildScrollView(
+      child: Column(children: [
+        Container(
+          width: 400,
+          alignment: Alignment.topCenter,
+          child: TableCalendar(
+            daysOfWeekStyle: DaysOfWeekStyle(
+                weekdayStyle: TextStyle(color: Colors.white),
+                weekendStyle: TextStyle(color: Colors.blueAccent)),
+            startingDayOfWeek: StartingDayOfWeek.monday,
+            headerStyle: HeaderStyle(
+              leftChevronIcon: Icon(Icons.chevron_left, color: Colors.white),
+              rightChevronIcon: Icon(Icons.chevron_right, color: Colors.white),
+              centerHeaderTitle: true,
+              titleTextStyle: TextStyle(
+                color: Colors.white,
+              ),
+              formatButtonVisible: false,
+            ),
+            initialCalendarFormat: CalendarFormat.month,
+            calendarStyle: CalendarStyle(
+              todayColor: Colors.grey,
+              selectedColor: Colors.blueAccent,
+              weekdayStyle: TextStyle(
+                color: Colors.white,
+              ),
+              unavailableStyle: TextStyle(color: Colors.white),
+              weekendStyle: TextStyle(color: Colors.white54),
+              todayStyle: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            calendarController: _controller,
+          ),
+        ),
+        Divider(
+          thickness: 2.0,
+          color: Colors.blue,
+        ),
+        Container(
+          height: 50,
+          child:
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            Text("Start-Date:",
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.white,
+                )),
+            Text("22 August 2020",
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.white,
+                )),
+          ]),
+        ),
+      ]),
+    );
   }
 
 
-  DateTime _enddate = DateTime.now();
+  Widget _settinglist() => ListView(
+    children: [
+      _title('Habit name', 'Coding' ),
+      Divider(
+        thickness: 3.0,
+        color: Colors.blue,
+      ),
+      _title('Category', 'Finance'),
+      Divider(
+        thickness: 3.0,
+        color: Colors.blue,
+      ),
+      _title('Habit', 'Yes/No Habit'),
+      Divider(
+        thickness: 3.0,
+        color: Colors.blue,
+      ),
+      _title('Frequency', 'Every day'),
+      Divider(
+        thickness: 3.0,
+        color: Colors.blue,
+      ),
+      _title('Start Date', '22 August 2020'),
+      Divider(
+        thickness: 3.0,
+        color: Colors.blue,
+      ),
+    ],
+  );
 
-
-  Future<Null> _selectEndDate(BuildContext context) async {
-    DateTime _dateEndPicker = await showDatePicker(
-        context: context,
-        initialDate: _enddate,
-        initialDatePickerMode: DatePickerMode.day,
-        firstDate: DateTime(1990),
-        lastDate: DateTime(2050),
-        builder: (BuildContext context, Widget child) {
-          return Theme(
-            data: ThemeData(
-
-              backgroundColor: Colors.grey,
-              primaryColor: Colors.green,
-              accentColor: Colors.blue,
-            ),
-            child: child,
-          );
-        });
-
-    if (_dateEndPicker != null && _dateEndPicker != _enddate) {
-      setState(() {
-        _enddate = _dateEndPicker;
-        print(
-          _enddate.toString(),
-        );
-      });
-    }
-  }
+  ListTile _title(String title, String subtitle) => ListTile(
+    title: Text(title,
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w500,
+          fontSize: 20,
+        )),
+    subtitle: Text(subtitle,
+      style: TextStyle(
+        color: Colors.white,
+      ),
+    ),
+    trailing:
+    Icon(
+      Icons.edit,
+      color: Colors.grey,
+    ),
+  );
 
 
 
@@ -352,559 +482,30 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
         centerTitle: true,
+        bottom: TabBar(
+          indicatorColor: Colors.white,
+          tabs: <Widget>[
+            Icon(Icons.data_usage),
+            Icon(Icons.calendar_today),
+            Icon(Icons.settings),
+          ],
+          labelPadding: EdgeInsets.only(
+            bottom: 10.0,
+          ),
+          labelStyle: TextStyle(
+            fontSize: 20.0,
+          ),
+          unselectedLabelColor: Colors.black,
+          controller: tb,
+        ),
       ),
-      body: SingleChildScrollView(
-        child: Column(children: <Widget>[
-          Container(
-              width: 500,
-              height: 180,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Text('Name of your Yes/No Habit?',
-                        style: TextStyle(fontSize: 20.0, color: Colors.white)),
-            Container(
-              width: 400,
-              height: 80,
-              child: TextField(
-                maxLength: 40,
-                style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white),
-                keyboardType: TextInputType.name,
-                decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: buttoncoloractive, width: 3.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: buttoncoloractive, width: 3.0),
-                    ),
-                    hintText: "e.g. Take my pills",
-                    labelText: "Name of your habit",
-                    suffixStyle:TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                    ) ,
-                    focusColor: Colors.deepOrange,
-                    hintStyle: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                    ),
-                    labelStyle: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                    ),
-                    border: OutlineInputBorder(borderSide: BorderSide(
-                        color: Colors.blue, width: 3.0),
-                    )
-                ),
-              ),
-            ),
-                  ])),
-          Divider(
-            color: Color.fromRGBO(54, 182, 255, 1),
-            thickness: 3,
-          ),
-          Container(
-            height: 100,
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Text('Category',
-                      style: TextStyle(fontSize: 18.0, color: Colors.white)),
-                  SelectCategory(),
-                ]),
-          ),
-          Divider(
-            color: Color.fromRGBO(54, 182, 255, 1),
-            thickness: 3,
-          ),
-          Text("Function",
-              style: TextStyle(fontSize: 18.0, color: Colors.white)),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                RaisedButton(
-                  shape: StadiumBorder(),
-                  splashColor: Color.fromRGBO(54, 182, 255, 1),
-                  color: buttoncolornormal,
-                  child: Text("Normal",
-                      style: TextStyle(fontSize: 18.0, color: Colors.white)),
-                  onPressed: normalselected,
-                ),
-                RaisedButton(
-                  shape: StadiumBorder(),
-                  splashColor: Color.fromRGBO(54, 182, 255, 1),
-                  color: buttoncolorvice,
-                  child: Text("Vice",
-                      style: TextStyle(fontSize: 18.0, color: Colors.white)),
-                  onPressed: viceselected,
-                ),
-              ]),
-          Divider(
-            color: Color.fromRGBO(54, 182, 255, 1),
-            thickness: 3,
-          ),
-          Text("Period", style: TextStyle(fontSize: 18.0, color: Colors.white)),
-          Column(
-            children: <Widget>[
-              RaisedButton(
-                shape: StadiumBorder(),
-                splashColor: Color.fromRGBO(54, 182, 255, 1),
-                color: buttoncoloreveryday,
-                child: Text("Every Day",
-                    style: TextStyle(fontSize: 18.0, color: Colors.white)),
-                onPressed: everydayselected,
-              ),
-              RaisedButton(
-                shape: StadiumBorder(),
-                splashColor: Color.fromRGBO(54, 182, 255, 1),
-                color: buttoncoloreveryweek,
-                child: Text("Every Week",
-                    style: TextStyle(fontSize: 18.0, color: Colors.white)),
-                onPressed: everyweekselected,
-              ),
-              RaisedButton(
-                shape: StadiumBorder(),
-                splashColor: Color.fromRGBO(54, 182, 255, 1),
-                color: buttoncoloreverymonth,
-                child: Text("Every Month",
-                    style: TextStyle(fontSize: 18.0, color: Colors.white)),
-                onPressed: everymonthselected,
-              ),
-              RaisedButton(
-                shape: StadiumBorder(),
-                splashColor: Color.fromRGBO(54, 182, 255, 1),
-                color: buttoncoloreveryyear,
-                child: Text("Every Year",
-                    style: TextStyle(fontSize: 18.0, color: Colors.white)),
-                onPressed: everyyearselected,
-              ),
-              RaisedButton(
-                shape: StadiumBorder(),
-                splashColor: Color.fromRGBO(54, 182, 255, 1),
-                color: buttoncolorweekdays,
-                child: Text("Select week days",
-                    style: TextStyle(fontSize: 18.0, color: Colors.white)),
-                onPressed: weeekdaysselected,
-              ),
-            ],
-          ),
-          Visibility(
-            maintainSize: true,
-            maintainAnimation: true,
-            maintainState: true,
-            visible: viewVisible1,
-            child: Container(
-              height: 75.0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Checkbox(
-                        activeColor: buttoncoloractive,
-                        value: _isMonday,
-                        onChanged: (value) {
-                          setState(() {
-                            _isMonday = value;
-                          });
-                        },
-                      ),
-                      Text("Mo",
-                          style:
-                              TextStyle(fontSize: 15.0, color: Colors.white)),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Checkbox(
-                        activeColor: buttoncoloractive,
-                        value: _isTuesday,
-                        onChanged: (value) {
-                          setState(() {
-                            _isTuesday = value;
-                          });
-                        },
-                      ),
-                      Text("Tu",
-                          style:
-                              TextStyle(fontSize: 15.0, color: Colors.white)),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Checkbox(
-                        activeColor: buttoncoloractive,
-                        value: _isWednesday,
-                        onChanged: (value) {
-                          setState(() {
-                            _isWednesday = value;
-                          });
-                        },
-                      ),
-                      Text("We",
-                          style:
-                              TextStyle(fontSize: 15.0, color: Colors.white)),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Checkbox(
-                        activeColor: buttoncoloractive,
-                        value: _isThursday,
-                        onChanged: (value) {
-                          setState(() {
-                            _isThursday = value;
-                          });
-                        },
-                      ),
-                      Text("Th",
-                          style:
-                              TextStyle(fontSize: 15.0, color: Colors.white)),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Checkbox(
-                        activeColor: buttoncoloractive,
-                        value: _isFriday,
-                        onChanged: (value) {
-                          setState(() {
-                            _isFriday = value;
-                          });
-                        },
-                      ),
-                      Text("Fr",
-                          style:
-                              TextStyle(fontSize: 15.0, color: Colors.white)),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Checkbox(
-                        activeColor: buttoncoloractive,
-                        value: _isSaturday,
-                        onChanged: (value) {
-                          setState(() {
-                            _isSaturday = value;
-                          });
-                        },
-                      ),
-                      Text("Sa",
-                          style:
-                              TextStyle(fontSize: 15.0, color: Colors.white)),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Checkbox(
-                        activeColor: buttoncoloractive,
-                        value: _isSunday,
-                        onChanged: (value) {
-                          setState(() {
-                            _isSunday = value;
-                          });
-                        },
-                      ),
-                      Text("Su",
-                          style:
-                              TextStyle(fontSize: 15.0, color: Colors.white)),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Divider(
-            color: Color.fromRGBO(54, 182, 255, 1),
-            thickness: 3,
-          ),
-          Container(
-            height: 180.0,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Text("Color",
-                    style: TextStyle(fontSize: 20.0, color: selectedColor),),
-                Text("Set the color style for your habit",
-                    style: TextStyle(fontSize: 16.0, color: Colors.white)),
-                AnimatedContainer(
-                  width: 400.0,
-                  height: 70.0,
-                  duration: Duration(seconds: 0),
-                  decoration: BoxDecoration(
-                      color: selectedColor,
-                      borderRadius: BorderRadius.all(Radius.circular(10))
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text("Hier muss der Text rein",
-                                    style: TextStyle(fontSize: 24.0, color: Colors.black)),
-                                Text(periodstring.toString(),
-                                    style: TextStyle(fontSize: 14.0, color: Colors.black54)),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text("Score",
-                                    style: TextStyle(fontSize: 18.0, color: Colors.black)),
-                                Text("84.5%",
-                                    style: TextStyle(fontSize: 24.0, color: Colors.black)),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            alignment: Alignment.centerRight,
-                            child: Icon(
-                              Icons.check_circle_outline,
-                              color: Colors.black,
-                              size: 40,
-                            ),
-                          ),
-                        ],
-                    ),
-                  ),
-
-                ),
-                Slider(
-                    value: currentslide,
-                    activeColor: selectedColor,
-                    min: 0,
-                    max: 100,
-                    divisions: 10,
-                    onChanged: (double value) {
-                      setState(() {
-                        currentslide = value;
-                      });
-                      showselectedColor();
-                    }),
-              ],
-            ),
-          ),
-          Divider(
-            color: Color.fromRGBO(54, 182, 255, 1),
-            thickness: 3,
-          ),
-          Container(
-            height: 100,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text("Set Goal Time",
-                    style: TextStyle(fontSize: 20.0, color: Colors.white)),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      width: 100,
-                      height: 50,
-                      child: TextField(
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white),
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: buttoncoloractive, width: 3.0),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: buttoncoloractive, width: 3.0),
-                            ),
-                            hintText: "00",
-                            labelText: "hours",
-                            focusColor: Colors.deepOrange,
-                            hintStyle: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
-                            labelStyle: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
-                            border: OutlineInputBorder(
-                            )
-                        ),
-                      ),
-                    ),
-              Container(
-                width: 100,
-                height: 50,
-                child: TextField(
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white),
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: buttoncoloractive, width: 3.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: buttoncoloractive, width: 3.0),
-                      ),
-                      hintText: "00",
-                      labelText: "min",
-                      focusColor: Colors.deepOrange,
-                      hintStyle: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                      ),
-                      labelStyle: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                      ),
-                      border: OutlineInputBorder(
-                      )
-                  ),
-                ),
-              ),
-                    Container(
-                      width: 100,
-                      height: 50,
-                      child: TextField(
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white),
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: buttoncoloractive, width: 3.0),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: buttoncoloractive, width: 3.0),
-                            ),
-                            hintText: "00",
-                            labelText: "sec",
-                            suffixStyle:TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                            ) ,
-                            focusColor: Colors.deepOrange,
-                            hintStyle: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
-                            labelStyle: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
-                            border: OutlineInputBorder(
-                            )
-                        ),
-                      ),
-                    ),
-                  ],
-
-
-                ),
-
-              ]
-            ),
-          ),
-          Divider(
-            color: Color.fromRGBO(54, 182, 255, 1),
-            thickness: 3,
-          ),
-          Text("Start and End- Dates",
-              style: TextStyle(fontSize: 20.0, color: Colors.white)),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Text("Set End Date",style: TextStyle(fontSize:18.0, color: Colors.white,
-                )),
-                Checkbox(
-                  activeColor: buttoncoloractive,
-                  value: viewVisible2,
-                  onChanged: (value) {
-                    setState(() {
-                      viewVisible2 = value;
-                    });
-                  },
-                ),
-              ],
-            ),
-          ),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Text(_startdate.toString(),
-                    style: TextStyle(fontSize: 15.0, color: Colors.white)),
-                RaisedButton(
-                  shape: StadiumBorder(),
-                  splashColor: Color.fromRGBO(54, 182, 255, 1),
-                  color: buttoncolorweekdays,
-                  child: Text("Select Start Date",
-                      style: TextStyle(fontSize: 18.0, color: Colors.white)),
-                  onPressed: () {
-                    setState(() {
-                      _selectStartDate(context);
-                    });
-                  },
-                ),
-              ],
-            ),
-          ),
-        Visibility(
-            maintainSize: true,
-            maintainAnimation: true,
-            maintainState: true,
-            visible: viewVisible2,
-          child:Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Text(_enddate.toString(),
-                    style: TextStyle(fontSize: 15.0, color: Colors.white)),
-                RaisedButton(
-                  shape: StadiumBorder(),
-                  splashColor: Color.fromRGBO(54, 182, 255, 1),
-                  color: buttoncolorweekdays,
-                  child: Text("Select End Date",
-                      style: TextStyle(fontSize: 18.0, color: Colors.white)),
-                  onPressed: () {
-                    setState(() {
-                      _selectEndDate(context);
-                    });
-                  },
-                ),
-              ],
-            ),
-          ),),
-        Divider(
-            color: Color.fromRGBO(54, 182, 255, 1),
-            thickness: 3,),
-          RaisedButton(
-            shape: StadiumBorder(),
-            splashColor: Color.fromRGBO(54, 182, 255, 1),
-            color: buttoncoloractive,
-            child: Text("Save",
-                style: TextStyle(fontSize: 18.0, color: Colors.white)),
-            onPressed: everyyearselected,
-          ),
-
-        ]),
+      body: TabBarView(
+        children: <Widget>[
+          statistics_Habit(),
+          calendar_Habit(),
+          _settinglist(),
+        ],
+        controller: tb,
       ),
       backgroundColor: Color.fromRGBO(53, 53, 53, 1),
       bottomNavigationBar: BottomNavigationBar(
@@ -928,106 +529,6 @@ class _MyHomePageState extends State<MyHomePage> {
               _currentIndex = index;
             });
           }),
-    );
-  }
-}
-
-
-
-class Nameofhabit extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // Figma Flutter Generator Component2Widget - INSTANCE
-    return Container(
-      width: 327,
-      height: 36,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        border: Border.all(color: Color.fromRGBO(54, 182, 255, 1), width: 2.0),
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-        color: Color.fromRGBO(120, 120, 120, 1),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: TextField(
-          style: TextStyle(fontSize: 18.0, color: Colors.white),
-          textAlign: TextAlign.center,
-          maxLength: 40,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: 'Name your habit here',
-            hintStyle: TextStyle(fontSize: 16.0, color: Colors.black),
-
-
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class Number extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // Figma Flutter Generator Component2Widget - INSTANCE
-    return Container(
-      width: 150,
-      height: 36,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        border: Border.all(color: Color.fromRGBO(54, 182, 255, 1), width: 2.0),
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-        color: Color.fromRGBO(120, 120, 120, 1),
-      ),
-      child: TextField(
-        keyboardType: TextInputType.number,
-        textAlign: TextAlign.center,
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          hintText: 'Number',
-          hintStyle: TextStyle(color: Colors.grey),
-        ),
-      ),
-    );
-  }
-}
-
-class Unit extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // Figma Flutter Generator Component2Widget - INSTANCE
-    return Container(
-      width: 150,
-      height: 36,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        border: Border.all(color: Color.fromRGBO(54, 182, 255, 1), width: 2.0),
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-        color: Color.fromRGBO(120, 120, 120, 1),
-      ),
-      child: TextField(
-        textAlign: TextAlign.center,
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          hintText: 'Unit',
-          hintStyle: TextStyle(color: Colors.grey),
-        ),
-      ),
-    );
-  }
-}
-
-class SelectCategory extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // Figma Flutter Generator Component2Widget - INSTANCE
-    return RaisedButton(
-      shape: StadiumBorder(),
-      splashColor: Color.fromRGBO(54, 182, 255, 1),
-      color: Color.fromRGBO(120, 120, 120, 1),
-      child: Text("select category",
-          style: TextStyle(fontSize: 15.0, color: Colors.white)),
-      onPressed: () {},
     );
   }
 }
