@@ -387,7 +387,6 @@ class _MyHomePageState extends State<MyHomePage> {
                               fontSize: 20,
                               color: Colors.white,
                             ) ,
-                            focusColor: Colors.deepOrange,
                             hintStyle: TextStyle(
                               fontSize: 20,
                               color: Colors.white,

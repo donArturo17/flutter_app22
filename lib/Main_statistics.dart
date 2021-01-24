@@ -135,6 +135,173 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               center: Text((habitprocentage * 100).toString() + "%",
                   style: TextStyle(fontSize: 30.0, color: Colors.white)),
             )),
+        Container(
+            color: Colors.green,
+            height: 200.0,
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: Container(
+                                height: 35.0,
+                                width: 100.0,
+                                alignment: Alignment.center,
+                                child: Text("This week:",
+                                    style: TextStyle(
+                                        fontSize: 20.0, color: Colors.white))),
+                          ),
+                          Expanded(
+                            child: Container(
+                                height: 35.0,
+                                width: 100.0,
+                                alignment: Alignment.center,
+                                child: Text(
+                                    (thisweekprocentage * 100).toString() +
+                                        " %",
+                                    style: TextStyle(
+                                        fontSize: 30.0, color: Colors.white))),
+                          ),
+                          Expanded(
+                            child: Container(
+                              height: 35.0,
+                              alignment: Alignment.center,
+                              child: Text(
+                                "15 Days",
+                                style: TextStyle(
+                                    fontSize: 20.0, color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          LinearPercentIndicator(
+                            progressColor: Colors.blueAccent,
+                            percent: thisweekprocentage,
+                            animation: true,
+                            width: 350,
+                            linearStrokeCap: LinearStrokeCap.round,
+                            backgroundColor: Colors.red,
+                            center: Text(
+                                (habitprocentage * 100).toString() + "%",
+                                style: TextStyle(
+                                    fontSize: 30.0, color: Colors.white)),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: Container(
+                            height: 35.0,
+                            width: 100.0,
+                            alignment: Alignment.center,
+                            child: Text("This month:",
+                                style: TextStyle(
+                                    fontSize: 20.0, color: Colors.white))),
+                      ),
+                      Expanded(
+                        child: Container(
+                            height: 35.0,
+                            width: 100.0,
+                            alignment: Alignment.center,
+                            child: Text(
+                                (thismonthprocentage * 100).toString() + " %",
+                                style: TextStyle(
+                                    fontSize: 30.0, color: Colors.white))),
+                      ),
+                      Expanded(
+                        child: Container(
+                          height: 35.0,
+                          alignment: Alignment.center,
+                          child: Text(
+                            "7 Days",
+                            style:
+                            TextStyle(fontSize: 20.0, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      LinearPercentIndicator(
+                        progressColor: Colors.blueAccent,
+                        percent: thismonthprocentage,
+                        animation: true,
+                        width: 350,
+                        linearStrokeCap: LinearStrokeCap.round,
+                        backgroundColor: Colors.red,
+                        center: Text((habitprocentage * 100).toString() + "%",
+                            style:
+                            TextStyle(fontSize: 30.0, color: Colors.white)),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: Container(
+                            height: 35.0,
+                            width: 100.0,
+                            alignment: Alignment.center,
+                            child: Text("This year:",
+                                style: TextStyle(
+                                    fontSize: 20.0, color: Colors.white))),
+                      ),
+                      Expanded(
+                        child: Container(
+                            height: 35.0,
+                            width: 100.0,
+                            alignment: Alignment.center,
+                            child: Text(
+                                (thisyearprocentage * 100).toString() + " %",
+                                style: TextStyle(
+                                    fontSize: 30.0, color: Colors.white))),
+                      ),
+                      Expanded(
+                        child: Container(
+                          height: 35.0,
+                          alignment: Alignment.center,
+                          child: Text(
+                            "19 Days",
+                            style:
+                            TextStyle(fontSize: 20.0, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      LinearPercentIndicator(
+                        progressColor: Colors.blueAccent,
+                        percent: thisyearprocentage,
+                        animation: true,
+                        width: 350,
+                        linearStrokeCap: LinearStrokeCap.round,
+                        backgroundColor: Colors.red,
+                        center: Text((habitprocentage * 100).toString() + "%",
+                            style:
+                            TextStyle(fontSize: 30.0, color: Colors.white)),
+                      ),
+                    ],
+                  ),
+                ])),
 
         Container(
             height: 50.0,
@@ -311,6 +478,214 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                 width: 100.0,
                                 alignment: Alignment.centerLeft,
                                 child: Text("Habit#1:",
+                                    style: TextStyle(
+                                        fontSize: 17.0, color: Colors.white))),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              LinearPercentIndicator(
+                                progressColor: Colors.blueAccent,
+                                percent: thisweekprocentage,
+                                animation: true,
+                                width: 300,
+                                linearStrokeCap: LinearStrokeCap.round,
+                                backgroundColor: Colors.red,
+                                center: Text(
+                                    (habitprocentage * 100).toString() + "%",
+                                    style: TextStyle(
+                                        fontSize: 30.0, color: Colors.white)),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            child: Text(
+                                (habitprocentage * 100).toString() + "%",
+                                style: TextStyle(
+                                    fontSize: 15.0, color: Colors.white)),
+                          ),
+                        ],
+                      ),
+
+                    ],
+                  ),
+                ])),
+
+        Container(
+            height: 50.0,
+            width: 400,
+            alignment: Alignment.center,
+            child: Text("Category Scores",
+                style: TextStyle(fontSize: 30.0, color: Colors.white))),
+        Divider(
+          thickness: 2.0,
+          color: Colors.blue,
+        ),
+        Container(
+            height: 200.0,
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: Container(
+                                height: 35.0,
+                                width: 100.0,
+                                alignment: Alignment.centerLeft,
+                                child: Text("Education:",
+                                    style: TextStyle(
+                                        fontSize: 17.0, color: Colors.white))),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              LinearPercentIndicator(
+                                progressColor: Colors.blueAccent,
+                                percent: thisweekprocentage,
+                                animation: true,
+                                width: 300,
+                                linearStrokeCap: LinearStrokeCap.round,
+                                backgroundColor: Colors.red,
+                                center: Text(
+                                    (habitprocentage * 100).toString() + "%",
+                                    style: TextStyle(
+                                        fontSize: 30.0, color: Colors.white)),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            child: Text(
+                                (habitprocentage * 100).toString() + "%",
+                                style: TextStyle(
+                                    fontSize: 15.0, color: Colors.white)),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: Container(
+                                height: 35.0,
+                                width: 100.0,
+                                alignment: Alignment.centerLeft,
+                                child: Text("Sport",
+                                    style: TextStyle(
+                                        fontSize: 17.0, color: Colors.white))),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              LinearPercentIndicator(
+                                progressColor: Colors.blueAccent,
+                                percent: thisweekprocentage,
+                                animation: true,
+                                width: 300,
+                                linearStrokeCap: LinearStrokeCap.round,
+                                backgroundColor: Colors.red,
+                                center: Text(
+                                    (habitprocentage * 100).toString() + "%",
+                                    style: TextStyle(
+                                        fontSize: 30.0, color: Colors.white)),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            child: Text(
+                                (habitprocentage * 100).toString() + "%",
+                                style: TextStyle(
+                                    fontSize: 15.0, color: Colors.white)),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: Container(
+                                height: 35.0,
+                                width: 100.0,
+                                alignment: Alignment.centerLeft,
+                                child: Text("Nutrition",
+                                    style: TextStyle(
+                                        fontSize: 17.0, color: Colors.white))),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              LinearPercentIndicator(
+                                progressColor: Colors.blueAccent,
+                                percent: thisweekprocentage,
+                                animation: true,
+                                width: 300,
+                                linearStrokeCap: LinearStrokeCap.round,
+                                backgroundColor: Colors.red,
+                                center: Text(
+                                    (habitprocentage * 100).toString() + "%",
+                                    style: TextStyle(
+                                        fontSize: 30.0, color: Colors.white)),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            child: Text(
+                                (habitprocentage * 100).toString() + "%",
+                                style: TextStyle(
+                                    fontSize: 15.0, color: Colors.white)),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: Container(
+                                height: 35.0,
+                                width: 100.0,
+                                alignment: Alignment.centerLeft,
+                                child: Text("Work",
+                                    style: TextStyle(
+                                        fontSize: 17.0, color: Colors.white))),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              LinearPercentIndicator(
+                                progressColor: Colors.blueAccent,
+                                percent: thisweekprocentage,
+                                animation: true,
+                                width: 300,
+                                linearStrokeCap: LinearStrokeCap.round,
+                                backgroundColor: Colors.red,
+                                center: Text(
+                                    (habitprocentage * 100).toString() + "%",
+                                    style: TextStyle(
+                                        fontSize: 30.0, color: Colors.white)),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            child: Text(
+                                (habitprocentage * 100).toString() + "%",
+                                style: TextStyle(
+                                    fontSize: 15.0, color: Colors.white)),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: Container(
+                                height: 35.0,
+                                width: 100.0,
+                                alignment: Alignment.centerLeft,
+                                child: Text("Finance",
                                     style: TextStyle(
                                         fontSize: 17.0, color: Colors.white))),
                           ),

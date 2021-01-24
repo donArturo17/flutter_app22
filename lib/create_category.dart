@@ -92,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Column(children: <Widget>[
           Container(
-            alignment: Alignment.center,
+              alignment: Alignment.center,
               width: 500,
               child: Column(children: <Widget>[
                 Container(
@@ -124,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                      IconButton(
+                        IconButton(
                           onPressed: () {
                             iconcolor = buttoncoloractive;
                             selectedicon = Icons.email;
@@ -518,16 +518,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   fontSize: 30.0,
                 ),
               ),
-      IconButton(
-        onPressed: () {
-          // You enter here what you want the button to do once the user interacts with it
-        },
-        icon: Icon(
-          selectedicon,
-          color: Colors.white,
-        ),
-        iconSize: 40.0,
-      ),
+              IconButton(
+                onPressed: () {
+                  // You enter here what you want the button to do once the user interacts with it
+                },
+                icon: Icon(
+                  selectedicon,
+                  color: Colors.white,
+                ),
+                iconSize: 40.0,
+              ),
             ],
           ),
           RaisedButton(

@@ -1,21 +1,61 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-
-
-
 Widget _categorylist() => ListView(
   children: [
-    _title('Health', 'e.g. Fitness, Sport, etc.' ,Icons.accessibility),
+    _title('Health' ,Icons.accessibility),
     Divider(
       thickness: 3.0,
       color: Colors.blue,
     ),
-    _title('Finance', 'e.g. saving every day 20', Icons.attach_money),
+    _title('Finance', Icons.attach_money),
     Divider(
       thickness: 3.0,
       color: Colors.blue,
     ),
-    _title('Education', 'e.g. study French, etc.', Icons.school),
+    _title('Education', Icons.school),
+    Divider(
+      thickness: 3.0,
+      color: Colors.blue,
+    ),
+    _title('Social', Icons.child_friendly),
+    Divider(
+      thickness: 3.0,
+      color: Colors.blue,
+    ),
+    _title('Art', Icons.terrain),
+    Divider(
+      thickness: 3.0,
+      color: Colors.blue,
+    ),
+    _title('Spiritual/Meditation', Icons.whatshot),
+    Divider(
+      thickness: 3.0,
+      color: Colors.blue,
+    ),
+    _title('Sport', Icons.motorcycle),
+    Divider(
+      thickness: 3.0,
+      color: Colors.blue,
+    ),
+    _title('Nutrition', Icons.restaurant),
+    Divider(
+      thickness: 3.0,
+      color: Colors.blue,
+    ),
+    _title('Other', Icons.settings_ethernet),
+    Divider(
+      thickness: 3.0,
+      color: Colors.blue,
+    ),
+    _title('Work', Icons.work),
+    Divider(
+      thickness: 3.0,
+      color: Colors.blue,
+    ),
+    _title('Home', Icons.home),
+    Divider(
+      thickness: 3.0,
+      color: Colors.blue,
+    ),
+    _title('Bad Habits', Icons.smoke_free),
     Divider(
       thickness: 3.0,
       color: Colors.blue,
@@ -23,16 +63,12 @@ Widget _categorylist() => ListView(
   ],
 );
 
-ListTile _title(String title, String subtitle, IconData iconhabit) => ListTile(
+ListTile _title(String title, IconData iconhabit) => ListTile(
   title: Text(title,
       style: TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.w500,
         fontSize: 20,
-      )),
-  subtitle: Text(subtitle,
-      style: TextStyle(
-        color: Colors.white,
       )),
   leading: Icon(
     iconhabit,
@@ -45,4 +81,3 @@ ListTile _title(String title, String subtitle, IconData iconhabit) => ListTile(
   ),
 
 );
-
